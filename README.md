@@ -5,11 +5,11 @@ This is a modification for Serious Sam Classic The First Encounter.
 This mod required https://github.com/tx00100xt/SeriousSamClassic to run.
 Serious Sam Alpha Remake was created by fans of the game Serious Sam TFE and is distributed for free.
 
-![XPLUS Oasis](https://raw.githubusercontent.com/tx00100xt/SeriousSamAlphaRemake/main/Images/samxplus_1.png)
+![Lava Planet](https://raw.githubusercontent.com/tx00100xt/SeriousSamAlphaRemake/main/Images/alpharemake_1.png)
 
-![XPLUS Dunes](https://raw.githubusercontent.com/tx00100xt/SeriousSamAlphaRemake/main/Images/samxplus_2.png)
+![Ice Planet](https://raw.githubusercontent.com/tx00100xt/SeriousSamAlphaRemake/main/Images/alpharemake_2.png)
 
-![XPLUS Sacred Yards](https://raw.githubusercontent.com/tx00100xt/SeriousSamAlphaRemake/main/Images/samxplus_3.png)
+![Ice Planet End](https://raw.githubusercontent.com/tx00100xt/SeriousSamAlphaRemake/main/Images/alpharemake_3.png)
 
 Download [SeriousSamAlphaRemake_v1.5.tar.xz] archive and unpack to  SeriousSamClassic/SamTFE/ directory.
 To start the modification, use the game menu - item Modification.
@@ -19,7 +19,7 @@ To start the modification, use the game menu - item Modification.
 Type this in your terminal:
 
 ```
-git clone https://gitflic.ru/project/tx00100xt/SeriousSamAlphaRemake.git SeriousSamAlphaRemake
+git clone https://github.com/tx00100xt/SeriousSamAlphaRemake.git SeriousSamAlphaRemake
 cd SeriousSamAlphaRemake/Sources
 ./build-linux64.sh -DTFE=TRUE	# use build-linux32.sh for 32-bits
 ```
