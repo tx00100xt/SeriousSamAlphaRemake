@@ -1,10 +1,15 @@
 ## Serious Sam Alpha Remake
 
-What is Serious Sam Alpha Remake?
+What is Serious Sam Alpha Remake?  
 This is a modification for Serious Sam Classic The First Encounter. 
-This mod required https://github.com/tx00100xt/SeriousSamClassic to run.
-Serious Sam Alpha Remake was created by fans of the game Serious Sam TFE and is distributed for free.
-Remark:  Zdzichu is author this mod for windows.
+This mod required https://github.com/tx00100xt/SeriousSamClassic to run.  
+Serious Sam Alpha Remake was created by fans of the game Serious Sam TFE and is distributed for free.    
+
+Description: (From the author of mod)  
+This is remake based on all code leftovers and original assets from alpha build.They are fixed and ported to game.    
+
+Author:  
+Zdzichu is author this mod for windows.
 
 ![Lava Planet](https://raw.githubusercontent.com/tx00100xt/SeriousSamAlphaRemake/main/Images/alpharemake_1.png)
 
