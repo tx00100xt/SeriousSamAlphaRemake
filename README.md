@@ -6,7 +6,7 @@ This mod required https://github.com/tx00100xt/SeriousSamClassic to run.
 Serious Sam Alpha Remake was created by fans of the game Serious Sam TFE and is distributed for free.    
 
 Description: (From the author of mod)  
-This is remake based on all code leftovers and original assets from alpha build.They are fixed and ported to game.    
+This is remake based on all code leftovers and original assets from alpha build. They are fixed and ported to game.    
 
 Author:  
 Zdzichu is author this mod for windows.
