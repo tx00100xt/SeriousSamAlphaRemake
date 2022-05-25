@@ -31,6 +31,12 @@ cd SeriousSamAlphaRemake/Sources
 ```
 After that , libraries will be collected in the x32 or x64 directory . Copy them to SeriousSamClassic/SamTFE/Mods/SSA/Bin folder.
 
+### Suported OS
+linux
+
+### Other OS
+Not supported
+
 License
 -------
 
