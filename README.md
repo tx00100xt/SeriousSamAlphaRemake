@@ -43,4 +43,4 @@ License
 * Serious Engine v1.10 is licensed under the GNU GPL v2 (see LICENSE file).
 
 
-[SeriousSamAlphaRemake_v1.5.tar.xz]: https://drive.google.com/file/d/1NP5aDWstRgQajggI_VZ2VTPx4Gpt7qyA/view?usp=sharing "Serious Sam Classic SSA Mod"
+[SeriousSamAlphaRemake_v1.5.tar.xz]: https://drive.google.com/file/d/1fQe4S0xE6wgowzDyNJpc9L6HEypHwnXl/view?usp=sharing "Serious Sam Classic SSA Mod"
