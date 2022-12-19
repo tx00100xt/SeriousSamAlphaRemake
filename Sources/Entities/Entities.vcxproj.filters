@@ -436,6 +436,18 @@
     <ClCompile Include="Dragonman.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Acid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LightStyle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RobotFixed.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Spinner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common\Common.h">
@@ -1168,6 +1180,42 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EnvironmentParticlesHolder_tables.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Acid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Acid_tables.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Beast_tables.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BloodSpray_tables.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Fish_tables.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Gizmo_tables.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LightStyle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LightStyle_tables.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RobotFixed.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RobotFixed_tables.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Spinner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Spinner_tables.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1940,19 +1988,35 @@
     <CustomBuild Include="RobotFlying.es">
       <Filter>Class Files\AI</Filter>
     </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Pipebomb.es">
-      <Filter>Class Files\Weapons</Filter>
-    </None>
-    <None Include="EnvironmentParticlesHolder.es">
+    <CustomBuild Include="..\Engine\Classes\BaseEvents.es">
+      <Filter>Class Files\AI</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\Engine\Classes\MovableBrushEntity.es">
+      <Filter>Class Files\AI</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\Engine\Classes\MovableEntity.es">
+      <Filter>Class Files\AI</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\Engine\Classes\MovableModelEntity.es">
+      <Filter>Class Files\AI</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\Engine\Classes\PlayerEntity.es">
+      <Filter>Class Files\AI</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Dragonman.es">
+      <Filter>Class Files\Enemies</Filter>
+    </CustomBuild>
+    <CustomBuild Include="DevilAlpha.es">
+      <Filter>Class Files\Enemies</Filter>
+    </CustomBuild>
+    <CustomBuild Include="EnvironmentParticlesHolder.es">
       <Filter>Class Files\Environment</Filter>
-    </None>
-    <None Include="DevilAlpha.es">
-      <Filter>Class Files\Enemies</Filter>
-    </None>
-    <None Include="Dragonman.es">
-      <Filter>Class Files\Enemies</Filter>
-    </None>
+    </CustomBuild>
+    <CustomBuild Include="Spinner.es">
+      <Filter>Class Files\Tools</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Pipebomb.es">
+      <Filter>Class Files\Weapons</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>
