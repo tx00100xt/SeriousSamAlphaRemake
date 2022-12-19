@@ -30,9 +30,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
   extern output (*p##name) inputs
   #define __stdcall
 #else
-#define DLLFUNCTION(dll, output, name, inputs, params, required) \
-  extern output (__stdcall *p##name) inputs
-  //#error please define your platform here.
+  #error please define your platform here.
 #endif
 
 #include "gl_functions.h"

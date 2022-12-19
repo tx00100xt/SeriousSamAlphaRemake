@@ -52,7 +52,7 @@ public:
   BOOL IsValid(void) const;
 
   // return length of the string
-  inline INDEX Length(void) const { return strlen(str_String); };
+  inline INDEX Length(void) const { return static_cast<INDEX>(strlen(str_String)); };
   INDEX LengthNaked(void) const;
 
   // report if string is empty
@@ -138,7 +138,7 @@ ENGINE_API void LoadIntVar(    const CTFileName &fnmVar, INDEX &iVar);
 ENGINE_API void SaveIntVar(    const CTFileName &fnmVar, INDEX &iVar);
 
 ENGINE_API CTString RemoveSpecialCodes( const CTString &str);
-
+ENGINE_API CTString strWindow1251ToUtf8(CTString from);
 
 #include <Engine/Base/CTString.inl>
 
