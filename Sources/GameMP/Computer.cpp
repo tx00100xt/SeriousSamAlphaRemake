@@ -272,8 +272,8 @@ void MessagesUpDn(INDEX ctLines)
 {
   INDEX ctMessages = _acmMessages.Count();
   _iWantedFirstMessageOnScreen += ctLines;
-  INDEX iMaxFirst = ClampDn(0, ctMessages-_ctMessagesOnScreen);
-  _iWantedFirstMessageOnScreen = Clamp(_iWantedFirstMessageOnScreen, 0, iMaxFirst);
+  INDEX iMaxFirst = ClampDn((INDEX)0, ctMessages-_ctMessagesOnScreen);
+  _iWantedFirstMessageOnScreen = Clamp(_iWantedFirstMessageOnScreen, (INDEX)0, iMaxFirst);
   _iActiveMessage = Clamp(_iActiveMessage, 
     _iWantedFirstMessageOnScreen,
     _iWantedFirstMessageOnScreen+_ctMessagesOnScreen-1);
@@ -1230,8 +1230,8 @@ void CGame::ComputerRender(CDrawPort *pdp)
   _pGfx->GetCurrentDisplayMode(dmCurrent);
   if (dmCurrent.IsFullScreen() && dmCurrent.IsDualHead()) {
     // clamp mouse pointer
-    _vpixMouse(1) = Clamp(_vpixMouse(1), 0, dpComp.GetWidth());
-    _vpixMouse(2) = Clamp(_vpixMouse(2), 0, dpComp.GetHeight());
+    _vpixMouse(1) = Clamp(_vpixMouse(1), (PIX)0, dpComp.GetWidth());
+    _vpixMouse(2) = Clamp(_vpixMouse(2), (PIX)0, dpComp.GetHeight());
   // if in window
   } else {
     // use same mouse pointer as windows

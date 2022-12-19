@@ -39,8 +39,8 @@ extern "C" __attribute__ ((visibility("default"))) FLOAT _fWeaponFOVAdjuster = 1
 extern "C" __attribute__ ((visibility("default"))) FLOAT _fPlayerFOVAdjuster = 1.0f;
 extern "C" __attribute__ ((visibility("default"))) BOOL  _bPlayerShowVideoHint = FALSE;
 #else
-DECL_DLL extern FLOAT _fWeaponFOVAdjuster = 1.0f;
-DECL_DLL extern FLOAT _fPlayerFOVAdjuster = 1.0f;
+extern __declspec(dllimport) FLOAT _fWeaponFOVAdjusterf;
+extern __declspec(dllimport) FLOAT _fPlayerFOVAdjuster;
 DECL_DLL extern BOOL  _bPlayerShowVideoHint = FALSE;
 #endif
 
@@ -1417,7 +1417,7 @@ functions:
   CTString GetStatsRealWorldStarted(void)
   {
     struct tm *newtime;
-    STUBBED("this isn't 64-bit clean");
+    //STUBBED("this isn't 64-bit clean");
     time_t t = (time_t) m_iStartTime;
     newtime = localtime(&t);
 

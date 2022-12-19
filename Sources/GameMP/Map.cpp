@@ -110,74 +110,74 @@ PIX aIconCoordsFE[][2] =
   {0,-15},    // 54: SpaceCrusader
 };
 
-#define LASTEPISODE_BIT 0
-#define PALENQUE01_BIT 1
-#define PALENQUE02_BIT  2
-#define TEOTIHUACAN01_BIT 3
-#define TEOTIHUACAN02_BIT 4
-#define TEOTIHUACAN03_BIT 5
-#define ZIGGURAT_BIT 6
-#define ATRIUM_BIT 7
-#define GILGAMESH_BIT 8
-#define BABEL_BIT 9
-#define CITADEL_BIT 10
-#define LOD_BIT 11
-#define CATHEDRAL_BIT 12
+#define LASTEPISODE_BIT 0ULL
+#define PALENQUE01_BIT 1ULL
+#define PALENQUE02_BIT  2ULL
+#define TEOTIHUACAN01_BIT 3ULL
+#define TEOTIHUACAN02_BIT 4ULL
+#define TEOTIHUACAN03_BIT 5ULL
+#define ZIGGURAT_BIT 6ULL
+#define ATRIUM_BIT 7ULL
+#define GILGAMESH_BIT 8ULL
+#define BABEL_BIT 9ULL
+#define CITADEL_BIT 10ULL
+#define LOD_BIT 11ULL
+#define CATHEDRAL_BIT 12ULL
 
-#define HATSHEPSUT_BIT 0
-#define SAND_BIT 1
-#define RAMSES_BIT 2
-#define CANYON_BIT 3
-#define WATERFALL_BIT 4
-#define OASIS_BIT 5
-#define DUNES_BIT 6
-#define SUBURBS_BIT 7
-#define SEWERS_BIT 8
-#define METROPOLIS_BIT 9
-#define SPHYNX_BIT 10
-#define KARNAK_BIT 11
-#define LUXOR_BIT 12
-#define SACRED_BIT 13
-#define PYRAMID_BIT 14
-#define CITYENTER_BIT 15
-#define CITYMIDLLE_BIT 16
-#define CITYOBELISK_BIT 17
-#define ENTERCAVE_BIT 18
-#define KINGVALLEY_BIT 19
-#define TOMBOFMENES_BIT 20
-#define TOMBOFRAMSESII_BIT 21
-#define SECRETTOMB_BIT 22
-#define MENTALTOMB_BIT 23
-#define KINGVALLEYEXIT_BIT 24
-#define KARNAKENTER_BIT 25
-#define KARNAKENTERCOMPLEX_BIT 26
-#define KARNAKTEMPLE_BIT 27
-#define KARNAKLAKEANDALLEY_BIT 28
-#define BABILONTEMPLE_BIT 29
-#define HATSHEPSUTALPHA_BIT 30
-#define PYRANIDVALLEY_BIT 31
-#define WATERPLANETINTRO_BIT 32
-#define WATERPLANETVALLEY_BIT 33
-#define WATERPLANETTERRA_BIT 34
-#define WATERPLANETEND_BIT 35
-#define LAVAPLANETVALLEY_BIT 36
-#define LAVAPLANETCANYON_BIT 37
-#define LAVAPLANETVULCAN_BIT 38
-#define GREENPLANET_BIT 39
-#define ICEPLANET_BIT 40
-#define ICEPLANETEND_BIT 41
-#define TROPICPLANET_BIT 42
-#define TROPICPLANETEND_BIT 43
-#define ROCKPLANET_BIT 44
-#define SIRIUS01_BIT 45
-#define SIRIUS02_BIT 46
-#define SIRIUS03_BIT 47
-#define SIRIUS04_BIT 48
-#define SIRIUS05_BIT 49
-#define SIRIUS06_BIT 50
-#define SIRIUS07_BIT 51
-#define SIRIUS08_BIT 52
-#define SPACECRUSADER_BIT 53
+#define HATSHEPSUT_BIT 0ULL
+#define SAND_BIT 1ULL
+#define RAMSES_BIT 2ULL
+#define CANYON_BIT 3ULL
+#define WATERFALL_BIT 4ULL
+#define OASIS_BIT 5ULL
+#define DUNES_BIT 6ULL
+#define SUBURBS_BIT 7ULL
+#define SEWERS_BIT 8ULL
+#define METROPOLIS_BIT 9ULL
+#define SPHYNX_BIT 10ULL
+#define KARNAK_BIT 11ULL
+#define LUXOR_BIT 12ULL
+#define SACRED_BIT 13ULL
+#define PYRAMID_BIT 14ULL
+#define CITYENTER_BIT 15ULL
+#define CITYMIDLLE_BIT 16ULL
+#define CITYOBELISK_BIT 17ULL
+#define ENTERCAVE_BIT 18ULL
+#define KINGVALLEY_BIT 19ULL
+#define TOMBOFMENES_BIT 20ULL
+#define TOMBOFRAMSESII_BIT 21ULL
+#define SECRETTOMB_BIT 22ULL
+#define MENTALTOMB_BIT 23ULL
+#define KINGVALLEYEXIT_BIT 24ULL
+#define KARNAKENTER_BIT 25ULL
+#define KARNAKENTERCOMPLEX_BIT 26ULL
+#define KARNAKTEMPLE_BIT 27ULL
+#define KARNAKLAKEANDALLEY_BIT 28ULL
+#define BABILONTEMPLE_BIT 29ULL
+#define HATSHEPSUTALPHA_BIT 30ULL
+#define PYRANIDVALLEY_BIT 31ULL
+#define WATERPLANETINTRO_BIT 32ULL
+#define WATERPLANETVALLEY_BIT 33ULL
+#define WATERPLANETTERRA_BIT 34ULL
+#define WATERPLANETEND_BIT 35ULL
+#define LAVAPLANETVALLEY_BIT 36ULL
+#define LAVAPLANETCANYON_BIT 37ULL
+#define LAVAPLANETVULCAN_BIT 38ULL
+#define GREENPLANET_BIT 39ULL
+#define ICEPLANET_BIT 40ULL
+#define ICEPLANETEND_BIT 41ULL
+#define TROPICPLANET_BIT 42ULL
+#define TROPICPLANETEND_BIT 43ULL
+#define ROCKPLANET_BIT 44ULL
+#define SIRIUS01_BIT 45ULL
+#define SIRIUS02_BIT 46ULL
+#define SIRIUS03_BIT 47ULL
+#define SIRIUS04_BIT 48ULL
+#define SIRIUS05_BIT 49ULL
+#define SIRIUS06_BIT 50ULL
+#define SIRIUS07_BIT 51ULL
+#define SIRIUS08_BIT 52ULL
+#define SPACECRUSADER_BIT 53ULL
 
 INDEX  aPathPrevNextLevelsSE[][2] = 
 {
@@ -1322,7 +1322,7 @@ void RenderMap( CDrawPort *pdp, unsigned long long ulLevelMask, CProgressHookInf
   INDEX(*aPathPrevNextLevels)[2] = map_bIsFirstEncounter ? aPathPrevNextLevelsFE : aPathPrevNextLevelsSE;
   PIX(*aPathDots)[10][2]         = map_bIsFirstEncounter ? aPathDotsFE           : aPathDotsSE;
 
-  INDEX ctLevels = map_bIsFirstEncounter ? ARRAYCOUNT(aIconCoordsFE) : ARRAYCOUNT(aIconCoordsSE);
+  unsigned long long ctLevels = map_bIsFirstEncounter ? ARRAYCOUNT(aIconCoordsFE) : ARRAYCOUNT(aIconCoordsSE);
 
   CTextureObject* _toMapBcgLD = &_toMapBcgLDSE;
   CTextureObject* _toMapBcgLU = &_toMapBcgLUSE;
@@ -1371,8 +1371,8 @@ void RenderMap( CDrawPort *pdp, unsigned long long ulLevelMask, CProgressHookInf
   PIX pixSX = (PIX) ((pixdpw-imgw*fStretch)/2);
   PIX pixSY = Max( PIX((pixdph-imgh*fStretch)/2), PIX(0));
 
-  PIX pixC1S = pixSX;                  // column 1 start pixel
-  PIX pixR1S = pixSY;                  // raw 1 start pixel
+  PIX pixC1S = pixSX;                          // column 1 start pixel
+  PIX pixR1S = pixSY;                          // raw 1 start pixel
   PIX pixC1E = (PIX) (pixSX+256*fStretch);     // column 1 end pixel
   PIX pixR1E = (PIX) (pixSY+256*fStretch);     // raw 1 end pixel
   PIX pixC2S = (PIX) (pixC1E-fStretch);        // column 2 start pixel
@@ -1391,17 +1391,17 @@ void RenderMap( CDrawPort *pdp, unsigned long long ulLevelMask, CProgressHookInf
 
   } else {
 
-    // render pale map bcg
+    // render pale map bcg (background)
     pdp->PutTexture( _toMapBcgLU, PIXaabbox2D( PIX2D(pixC1S,pixR1S), PIX2D(pixC1E,pixR1E)), C_WHITE|255);
     pdp->PutTexture( _toMapBcgRU, PIXaabbox2D( PIX2D(pixC2S,pixR1S), PIX2D(pixC2E,pixR1E)), C_WHITE|255);
     pdp->PutTexture( _toMapBcgLD, PIXaabbox2D( PIX2D(pixC1S,pixR2S), PIX2D(pixC1E,pixR2E)), C_WHITE|255);
     pdp->PutTexture( _toMapBcgRD, PIXaabbox2D( PIX2D(pixC2S,pixR2S), PIX2D(pixC2E,pixR2E)), C_WHITE|255);
 
-    // render icons
-    for( INDEX iIcon=(!map_bIsFirstEncounter); iIcon<ctLevels; iIcon++)
+    // render icons (levels)
+    for( unsigned long long iIcon=(!map_bIsFirstEncounter); iIcon<ctLevels; iIcon++)
     {
       // if level's icon should be rendered
-      if( ulLevelMask & (1UL<<iIcon))
+      if( ulLevelMask & (1ULL<<iIcon))
       {
         PIX pixX = (PIX) (aIconCoords[iIcon][0]*fStretch+pixC1S);
         PIX pixY = (PIX) (aIconCoords[iIcon][1]*fStretch+pixR1S);
@@ -1414,31 +1414,30 @@ void RenderMap( CDrawPort *pdp, unsigned long long ulLevelMask, CProgressHookInf
   }
 
 
-if (bAlphaLevels == FALSE) {
-//
-  // render paths
-  for( INDEX iPath=0; iPath<ctLevels; iPath++)
-  {
-    INDEX iPrevLevelBit = aPathPrevNextLevels[iPath][0];
-    INDEX iNextLevelBit = aPathPrevNextLevels[iPath][1];
-
-    // if path dots should be rendered:
-    // if path src and dst levels were discovered and secret level isn't inbetween or hasn't been discovered
-    if( ulLevelMask&(1UL<<iPrevLevelBit) &&
-        ulLevelMask&(1UL<<iNextLevelBit) &&
-        ((iNextLevelBit-iPrevLevelBit)==1 || !(ulLevelMask&(1UL<<(iNextLevelBit-1)))))
+  if (bAlphaLevels == FALSE) { // dots
+    // render paths
+    for( INDEX iPath=0; iPath<ctLevels; iPath++)
     {
-      for( INDEX iDot=0; iDot<10; iDot++)
+      INDEX iPrevLevelBit = aPathPrevNextLevels[iPath][0];
+      INDEX iNextLevelBit = aPathPrevNextLevels[iPath][1];
+
+      // if path dots should be rendered:
+      // if path src and dst levels were discovered and secret level isn't inbetween or hasn't been discovered
+      if( ulLevelMask&(1ULL<<iPrevLevelBit) &&
+          ulLevelMask&(1ULL<<iNextLevelBit) &&
+          ((iNextLevelBit-iPrevLevelBit)==1 || !(ulLevelMask&(1ULL<<(iNextLevelBit-1)))))
       {
-        PIX pixDotX=(PIX) (pixC1S+aPathDots[iPath][iDot][0]*fStretch);
-        PIX pixDotY=(PIX) (pixR1S+aPathDots[iPath][iDot][1]*fStretch);
-        if(aPathDots[iPath][iDot][0]==-1) break;
-        pdp->PutTexture( &_toPathDot, PIXaabbox2D( PIX2D(pixDotX, pixDotY), PIX2D(pixDotX+8*fStretch, pixDotY+8*fStretch)),
-          (map_bIsFirstEncounter ? C_WHITE : C_BLACK)|255);
+        for( INDEX iDot=0; iDot<10; iDot++)
+        {
+          PIX pixDotX=(PIX) (pixC1S+aPathDots[iPath][iDot][0]*fStretch);
+          PIX pixDotY=(PIX) (pixR1S+aPathDots[iPath][iDot][1]*fStretch);
+          if(aPathDots[iPath][iDot][0]==-1) break;
+          pdp->PutTexture( &_toPathDot, PIXaabbox2D( PIX2D(pixDotX, pixDotY), PIX2D(pixDotX+8*fStretch, pixDotY+8*fStretch)),
+            (map_bIsFirstEncounter ? C_WHITE : C_BLACK)|255);
+        }
       }
-    }
-  }
-//
+    } // end dots
+
 }
 
   if( pphi != NULL)
