@@ -1951,5 +1951,8 @@
     <None Include="DevilAlpha.es">
       <Filter>Class Files\Enemies</Filter>
     </None>
+    <None Include="Dragonman.es">
+      <Filter>Class Files\Enemies</Filter>
+    </None>
   </ItemGroup>
 </Project>
