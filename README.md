@@ -17,10 +17,13 @@ Zdzichu is author this mod for windows.
 
 ![Ice Planet End](https://raw.githubusercontent.com/tx00100xt/SeriousSamAlphaRemake/main/Images/alpharemake_3.png)
 
-Download [SeriousSamAlphaRemake_v1.5.tar.xz] archive and unpack to  SeriousSamClassic/SamTFE/ directory.
+Download [SeriousSamAlphaRemake_v1.5.7z] archive and unpack to  SeriousSamClassic/SamTFE/ directory.
 To start the modification, use the game menu - item Modification.
 
-#### Building Serious Sam Alpha Remake (only for SS:TFE)
+Building Serious Sam Alpha Remake.
+----------------------------------
+
+### Linux
 
 Type this in your terminal:
 
@@ -31,16 +34,65 @@ cd SeriousSamAlphaRemake/Sources
 ```
 After that , libraries will be collected in the x32 or x64 directory . Copy them to SeriousSamClassic/SamTFE/Mods/SSA/Bin folder.
 
-### Suported OS
-linux
+### Gentoo
 
-### Other OS
-Not supported
+To build a game for gentoo, use a https://github.com/tx00100xt/serioussam-overlay containing ready-made ebuilds for building the game and add-ons.
+
+### Arch Linux
+
+To build a game under Arch Linux you can use the package from AUR: https://aur.archlinux.org/packages/serioussam
+
+### Raspberry Pi
+
+The build for raspberry pi is similar to the build for Linux, you just need to add an additional build key.
+
+```
+cd SeriousSamAlphaRemake/Sources
+./build-linux64.sh -DTFE=TRUE -DRPI4=TRUE	# use build-linux32.sh for 32-bits
+```
+### FreeBSD
+
+Install bash. 
+Type this in your terminal:
+
+```
+git clone https://github.com/tx00100xt/SeriousSamAlphaRemake.git SeriousSamAlphaRemake
+cd SeriousSamAlphaRemake/Sources
+bash build-linux64.sh -DTFE=TRUE	# use build-linux32.sh for 32-bits
+```
+After that , libraries will be collected in the x32 or x64 directory . Copy them to SeriousSamClassic/SamTFE/Mods/SSA/Bin folder.
+
+Windows
+-------
+* This project can be compiled starting from Windows 7 and higher.
+
+1. Download and Install [Visual Studio 2015 Community Edition] or higher.
+2. Download and Install [Windows 10 SDK 10.0.14393.795] or other.
+3. Open the solution in the Sources folder, select Release x64 or Release Win32 and compile it.
+
+Supported Architectures
+----------------------
+* `x86`
+* `aarch64`
+* `e2k` (elbrus)
+
+Supported OS
+-----------
+* `Linux`
+* `FreeBSD`
+* `Windows`
+* `Raspberry PI OS`
 
 License
 -------
 
-* Serious Engine v1.10 is licensed under the GNU GPL v2 (see LICENSE file).
+* Serious Engine is licensed under the GNU GPL v2 (see LICENSE file).
+
+Some of the code included with the engine sources is not licensed under the GNU GPL v2:
+
+* zlib (located in `Sources/Engine/zlib`) by Jean-loup Gailly and Mark Adler
 
 
-[SeriousSamAlphaRemake_v1.5.tar.xz]: https://drive.google.com/file/d/1fQe4S0xE6wgowzDyNJpc9L6HEypHwnXl/view?usp=sharing "Serious Sam Classic SSA Mod"
+[SeriousSamAlphaRemake_v1.5.7z]: https://drive.google.com/file/d/1JZouza6PCpqGbucFYLaMh1oDXmGbb7_6/view?usp=share_link "Serious Sam Classic SSA Mod"
+[Visual Studio 2015 Community Edition]: https://go.microsoft.com/fwlink/?LinkId=615448&clcid=0x409 "Visual Studio 2015 Community Edition"
+[Windows 10 SDK 10.0.14393.795]: https://go.microsoft.com/fwlink/p/?LinkId=838916 "Windows 10 SDK 10.0.14393.795"
