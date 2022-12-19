@@ -104,10 +104,10 @@ functions:
   {
     CTString str;
 	if (m_EctType!=CBT_GROUND) {
-		str.PrintF(TRANS("%s was killed by a Cyborg"), strPlayerName);
+		str.PrintF(TRANS("%s was killed by a Cyborg"), (const char *)strPlayerName);
 		return str;
 	} else {
-		str.PrintF(TRANS("%s was killed by a CyborgBike"), strPlayerName);
+		str.PrintF(TRANS("%s was killed by a CyborgBike"), (const char *)strPlayerName);
 		return str;
 	}
   }

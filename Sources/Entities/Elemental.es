@@ -310,19 +310,19 @@ functions:
   {
     CTString str;
 	if (m_EetType == ELT_AIR) {
-        str.PrintF(TRANS("%s was killed by a Airman"), strPlayerName);
+        str.PrintF(TRANS("%s was killed by a Airman"), (const char *)strPlayerName);
         return str;
 	} else if (m_EetType == ELT_ICE){
-        str.PrintF(TRANS("%s was killed by a Iceman"), strPlayerName);
+        str.PrintF(TRANS("%s was killed by a Iceman"), (const char *)strPlayerName);
         return str;
 	} else if (m_EetType == ELT_LAVA){
-        str.PrintF(TRANS("%s was killed by a Lavaman"), strPlayerName);
+        str.PrintF(TRANS("%s was killed by a Lavaman"), (const char *)strPlayerName);
         return str;
 	} else if (m_EetType == ELT_STONE){
-        str.PrintF(TRANS("%s was killed by a Stoneman"), strPlayerName);
+        str.PrintF(TRANS("%s was killed by a Stoneman"), (const char *)strPlayerName);
         return str;
 	} else if (m_EetType ==  ELT_WATER){
-        str.PrintF(TRANS("%s was killed by a Waterman"), strPlayerName);
+        str.PrintF(TRANS("%s was killed by a Waterman"), (const char *)strPlayerName);
         return str;
     }
 	
