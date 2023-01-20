@@ -4475,8 +4475,10 @@ void TeleportPlayer(enum WorldLinkType EwltType)
     INDEX iLevel = -1;
     CTString strLevelName = GetWorld()->wo_fnmFileName.FileName();
     strLevelName.ScanF("%02d_", &iLevel);
+    unsigned long long ulLevel = static_cast<unsigned long long>(iLevel);
+	unsigned long long _one = 1;
     if (iLevel>0) {
-      ((CSessionProperties*)GetSP())->sp_ulLevelsMask|=1<<(iLevel-1);
+      ((CSessionProperties*)GetSP())->sp_ulLevelsMask |= _one < (ulLevel-1);
     }
 
     // find player index

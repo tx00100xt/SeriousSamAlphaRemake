@@ -1380,7 +1380,7 @@ void RenderMap( CDrawPort *pdp, unsigned long long ulLevelMask, CProgressHookInf
   PIX pixC2E = (PIX) (pixC2S+256*fStretch);    // column 2 end pixel
   PIX pixR2E = (PIX) (pixR2S+256*fStretch);    // raw 2 end pixel
 
-  if (ulLevelMask == 0x00000001 && !map_bIsFirstEncounter) {
+  if (ulLevelMask == 0x00000001ULL && !map_bIsFirstEncounter) {
 
     // render the book
     //PIX pixX = (PIX) (aIconCoords[0][0]*fStretch+pixC1S);

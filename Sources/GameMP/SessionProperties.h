@@ -79,7 +79,7 @@ public:
   BOOL  sp_bEndOfGame;     // marked when dm game is finished (any of the limits reached)
 
   //unsigned long long ulLevelMask = psp->sp_ulLevelsMask; sp_ulLevelsMask;    // mask of visited levels so far
-  unsigned long long sp_ulLevelsMask;
+  unsigned long long sp_ulLevelsMask = 0x00;
 
   BOOL  sp_bUseExtraEnemies;  // spawn extra multiplayer enemies
 };

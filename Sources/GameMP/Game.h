@@ -24,6 +24,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #define GAME_SHELL_VER "V012"
 
+
 #define AXIS_ACTIONS_CT 9
 #define SENSITIVITY_SLIDER_POSITIONS 25
 
@@ -37,6 +38,13 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #define AXIS_LOOK_UD 6
 #define AXIS_LOOK_LR 7
 #define AXIS_LOOK_BK 8
+
+/*
+#define dumpbin(ptr, size) ({ \
+    unsigned long long n = (size) * CHAR_BIT; \
+    while ( n ) \
+        CPrintF("%d", ( *(ptr) >> --n ) & 1); \
+})*/
 
 enum ConsoleState {
   CS_OFF,

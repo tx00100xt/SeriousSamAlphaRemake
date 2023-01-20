@@ -52,6 +52,14 @@ void RemapLevelNames(INDEX &iLevel)
   }
 }
 
+void dumpbin(unsigned long long k)
+{
+	for (int i = 0; i < 64; i++) {
+		CPrintF("%d", (k & 0x8000000000000000ULL) ? 1 : 0);
+		k <<= 1;
+	}
+	CPrintF("\n");
+}
 
 static void LoadingHook_t(CProgressHookInfo *pphi)
 {
@@ -105,66 +113,38 @@ static void LoadingHook_t(CProgressHookInfo *pphi)
   //INDEX iLevel = -1;
 
   if (psp->sp_bCooperative) {
-    INDEX iLevel = -1;
-    INDEX iLevelNext = -1;
-    CTString strLevelName = _pNetwork->ga_fnmWorld.FileName();
-    CTString strNextLevelName = _pNetwork->ga_fnmNextLevel.FileName();
-    
-    // second encounter
-    INDEX u, v;
-    u = v = -1;
-    strLevelName.ScanF("%01d_%01d_", &u, &v);
-    iLevel = u*10+v;
-    RemapLevelNames(iLevel);
-    u = v = -1;
-    strNextLevelName.ScanF("%01d_%01d_", &u, &v);
-    iLevelNext = u*10+v;
-    RemapLevelNames(iLevelNext);
+	  INDEX iLevel = -1;
+	  INDEX iLevelNext = -1;
+	  CTString strLevelName = _pNetwork->ga_fnmWorld.FileName();
+	  CTString strNextLevelName = _pNetwork->ga_fnmNextLevel.FileName();
+	  strLevelName.ScanF("%02d_", &iLevel);
+	  strNextLevelName.ScanF("%02d_", &iLevelNext);
+	  map_bIsFirstEncounter = TRUE;
+	  unsigned long long ulLevel = (unsigned long long) iLevel;
+	  unsigned long long ulLevelNext = (unsigned long long) iLevelNext;
+	  if (iLevel == 55) {
+	    iLevel = 46;
+	  }
 
-    // first encounter
-    if(iLevel == -1) {
-      strLevelName.ScanF("%02d_", &iLevel);
-      strNextLevelName.ScanF("%02d_", &iLevelNext);
-
-      if(iLevel != -1) {
-        map_bIsFirstEncounter = TRUE;
-      }
-    } else {
-      map_bIsFirstEncounter = FALSE;
-    }
-    /*
-    strLevelName = _pNetwork->ga_fnmWorld.FileName(); 
-	if ( strLevelName=="GrandFinale1") {
-       map_bIsFirstEncounter = TRUE;
-       iLevel = 52;
-    } else if ( strLevelName=="GrandFinale2" ){
-       map_bIsFirstEncounter = TRUE;
-       iLevel = 53;
-    } else if ( strLevelName=="GrandFinale3" ){
-       map_bIsFirstEncounter = TRUE;
-       iLevel = 54;
-    }*/
-    unsigned long long ulLevel = (unsigned long long) iLevel;
-    unsigned long long ulLevelNext = (unsigned long long) iLevelNext;
-    if (iLevel == 55) {
-      iLevel = 46;
-    }
-    if (iLevel>15) {
-      bAlphaLevels = TRUE;
-    }
-    if (iLevel>0) {
-      ulLevelMask|=1ULL<<(ulLevel-1);
-    }
-    if (iLevelNext>0) {
-      ulLevelMask|=1ULL<<(ulLevelNext-1);
-    }
-/*    CPrintF("[iLevel %d  ulLevelMask: %ull]\n",iLevel,ulLevelMask);
-    if (iLevel == 20) { ulLevelMask = 524288ULL; }
-    else if (iLevel == 21)  {ulLevelMask = 1048576ULL; }
-    else if (iLevel == 22)  {ulLevelMask = 2097152ULL; }
-    else if (iLevel == 23)  {ulLevelMask = 4194304ULL; }
-    else if (iLevel == 24)  {ulLevelMask = 8388608ULL; }
-    else if (iLevel == 25)  {ulLevelMask = 16777216ULL;}*/
+	  if (ulLevelMask != 0 && iLevel > 15 && _pGame->gm_bGameOn) {
+		bAlphaLevels = TRUE;
+		ulLevelMask = 1ULL << ulLevel;
+	  } else {
+		if (iLevel > 0 && iLevel < 16) {
+		  ulLevelMask |= 1ULL << (ulLevel - 1);
+        }
+		if (iLevelNext > 0 && iLevel < 16) {
+		  ulLevelMask |= 1ULL << (ulLevelNext - 1);
+		}
+		if (iLevel > 15) {
+		  bAlphaLevels = TRUE;
+		  ulLevelMask = 1ULL << (ulLevel - 1);
+		}
+	  }
+	/*
+	extern void dumpbin(unsigned long long k);
+	CPrintF("[iLevel %d  ulLevelMask: ", iLevel, ulLevelMask); dumpbin(ulLevelMask);
+	*/
   }
 
   if (ulLevelMask!=0 && !_pNetwork->IsPlayingDemo()) {

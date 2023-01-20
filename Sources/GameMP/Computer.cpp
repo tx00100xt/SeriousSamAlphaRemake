@@ -755,7 +755,7 @@ void RenderMessageStats(CDrawPort *pdp)
 {
   CSessionProperties *psp = (CSessionProperties *)_pNetwork->GetSessionProperties();
   unsigned long long ulLevelMask = psp->sp_ulLevelsMask;
-  //INDEX iLevel = -1;
+
   if (psp->sp_bCooperative) {
     INDEX iLevel = -1;
     INDEX iLevelNext = -1;
@@ -775,26 +775,22 @@ void RenderMessageStats(CDrawPort *pdp)
     unsigned long long ulLevel = (unsigned long long) iLevel;
     unsigned long long ulLevelNext = (unsigned long long) iLevelNext;
     BOOL bAlphaLevels = FALSE;
-    //if (iLevel == 55) {
-    //  iLevel = 46;
-    //}
-    if (iLevel>0) {
+
+    if (iLevel>0 && iLevel<16) {
       ulLevelMask|=1ULL<<(ulLevel-1);
     }
-    if (iLevelNext>0) {
+    if (iLevelNext>0 && iLevel<16) {
       ulLevelMask|=1ULL<<(ulLevelNext-1);
     }
     if (iLevel>15) {
       bAlphaLevels = TRUE;
+	  ulLevelMask = 1ULL << (ulLevel - 1);
     }
- /*   if (iLevel == 20) { ulLevelMask = 524288ULL; }
-    else if (iLevel == 21)  {ulLevelMask = 1048576ULL; }
-    else if (iLevel == 22)  {ulLevelMask = 2097152ULL; }
-    else if (iLevel == 23)  {ulLevelMask = 4194304ULL; }
-    else if (iLevel == 24)  {ulLevelMask = 8388608ULL; }
-    else if (iLevel == 25)  {ulLevelMask = 16777216ULL;}
-*/
-    extern void RenderMap( CDrawPort *pdp, unsigned long long ulLevelMask, CProgressHookInfo *pphi, BOOL bAlphaLevels, BOOL bCompModels);
+/*	
+	extern void dumpbin(unsigned long long k);
+	CPrintF("[iLevel %d  ulLevelMask: ", iLevel, ulLevelMask); dumpbin(ulLevelMask);
+*/    
+	extern void RenderMap( CDrawPort *pdp, unsigned long long ulLevelMask, CProgressHookInfo *pphi, BOOL bAlphaLevels, BOOL bCompModels);
     if (pdp->Lock()) {
       // get sizes
       PIX pixSizeI = pdp->GetWidth();
