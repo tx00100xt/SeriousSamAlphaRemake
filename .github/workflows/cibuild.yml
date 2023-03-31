@@ -138,7 +138,7 @@ jobs:
     - name: MS Build
       working-directory: Sources
       run: | 
-         msbuild /m /p:Configuration="${{ matrix.Configuration }}" /p:Platform="${{ matrix.Platform }}" SSA.sln 
+         msbuild /m /p:Configuration="${{ matrix.Configuration }}" /p:Platform="${{ matrix.Platform }}" SamAlphaRemake.sln
          cd ${{github.workspace}}
          7z a -mx=9 SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-win32-bin.7z x32
       
@@ -176,7 +176,7 @@ jobs:
     - name: MS Build
       working-directory: Sources
       run: | 
-         msbuild /m /p:Configuration="${{ matrix.Configuration }}" /p:Platform="${{ matrix.Platform }}" SSA.sln 
+         msbuild /m /p:Configuration="${{ matrix.Configuration }}" /p:Platform="${{ matrix.Platform }}" SamAlphaRemake.sln 
          cd ${{github.workspace}}
          7z a -mx=9 SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-win64-bin.7z x64
       
