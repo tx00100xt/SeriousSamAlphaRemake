@@ -61,7 +61,6 @@ jobs:
         name: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-alpine-x86-bin.tar.xz
         path: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-alpine-x86-bin.tar.xz          
 
-
   build-alpine-x64:
     name: Alpine ${{ matrix.Configuration }} ${{ matrix.Platform }}
     runs-on: ubuntu-latest
@@ -340,3 +339,124 @@ jobs:
         with:
           name: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-bsd-amd64-bin.tar.xz
           path: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-bsd-amd64-bin.tar.xz      
+
+     
+  build-raspios-armv7l:
+    name: RPi OS Lite ${{ matrix.Configuration }} ${{ matrix.arch }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: [armv7l]
+        Configuration: [Release]      
+        include:
+        - arch: armv7l
+          cpu: cortex-a53
+          base_image: raspios_lite:latest
+          cpu_info: cpuinfo/raspberrypi_3b
+         
+    steps:
+    - name: Get current date
+      id: date
+      uses: Kaven-Universe/github-action-current-date-time@v1
+      with:
+         format: "YYYYMMDD"
+
+    - name: Show current date
+      run: |
+        echo "${{ steps.date.outputs.time }}"    
+    
+    - uses: pguyot/arm-runner-action@v2
+      with:
+        image_additional_mb: 1024
+        base_image: ${{ matrix.base_image }}
+        cpu: ${{ matrix.cpu }}
+        cpu_info: ${{ matrix.cpu_info }}
+        shell: /bin/bash 
+        copy_artifact_path: Release
+        commands: |
+            mkdir Release
+            test `uname -m` = ${{ matrix.arch }}
+            grep Model /proc/cpuinfo
+            apt-get update -y --allow-releaseinfo-change
+            apt-get install --no-install-recommends -y git bison flex cmake make gcc libc6-dev libsdl2-dev libogg-dev libvorbis-dev zlib1g-dev    
+            cat /proc/cpuinfo
+            cat /etc/os-release
+            uname -a
+            gcc -c -Q -mcpu=native --help=target
+            git clone https://github.com/tx00100xt/SeriousSamAlphaRemake.git
+            cmake SeriousSamAlphaRemake/Sources -B SeriousSamAlphaRemake/Sources/build-armv7l -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }} -DCMAKE_C_FLAGS=-mbe32 -DCMAKE_CXX_FLAGS=-mbe32 -DUSE_I386_NASM_ASM=FALSE -DTFE=TRUE -DRPI4=TRIE
+            make -C SeriousSamAlphaRemake/Sources/build-armv7l ecc
+            make -j4 -C SeriousSamAlphaRemake/Sources/build-armv7l
+            cp -vfr SeriousSamAlphaRemake/Sources/build-armv7l/Debug/*.so SeriousSamAlphaRemake/x32/SamTFE/Mods/SSA/Bin           
+            mv SeriousSamAlphaRemake/x32 armv7l
+            XZ_DEFAULTS="-T 10" tar --use-compress-program=xz -cpvf SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-rpios-armv7l-bin.tar.xz armv7l
+            cp SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-rpios-armv7l-bin.tar.xz Release/
+    - name: Prepare Release
+      run: |           
+         sudo mv ${{github.workspace}}/Release/SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-rpios-armv7l-bin.tar.xz ${{github.workspace}}/
+                        
+    - name: Upload Release
+      uses: actions/upload-artifact@v3
+      with:
+        name: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-rpios-armv7l-bin.tar.xz
+        path: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-rpios-armv7l-bin.tar.xz
+        
+  build-raspios-aarch64:
+    name: RPi OS Lite ${{ matrix.Configuration }} ${{ matrix.arch }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: [aarch64]
+        Configuration: [Release]      
+        include:
+        - arch: aarch64
+          cpu: cortex-a72
+          base_image: raspios_lite_arm64:latest
+          cpu_info: cpuinfo/raspberrypi_4b
+         
+    steps:
+    - name: Get current date
+      id: date
+      uses: Kaven-Universe/github-action-current-date-time@v1
+      with:
+         format: "YYYYMMDD"
+
+    - name: Show current date
+      run: |
+        echo "${{ steps.date.outputs.time }}"    
+    
+    - uses: pguyot/arm-runner-action@v2
+      with:
+        image_additional_mb: 1024
+        base_image: ${{ matrix.base_image }}
+        cpu: ${{ matrix.cpu }}
+        cpu_info: ${{ matrix.cpu_info }}
+        shell: /bin/bash 
+        copy_artifact_path: Release
+        commands: |
+            mkdir Release
+            test `uname -m` = ${{ matrix.arch }}
+            grep Model /proc/cpuinfo
+            apt-get update -y --allow-releaseinfo-change
+            apt-get install --no-install-recommends -y git bison flex cmake make gcc libc6-dev libsdl2-dev libogg-dev libvorbis-dev zlib1g-dev    
+            cat /proc/cpuinfo
+            cat /etc/os-release
+            uname -a
+            gcc -c -Q -mcpu=native --help=target
+            git clone https://github.com/tx00100xt/SeriousSamAlphaRemake.git
+            cmake SeriousSamAlphaRemake/Sources -B SeriousSamAlphaRemake/Sources/build-aarch64 -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }} -DTFE=TRUE -DRPI4=TRIE
+            make -C SeriousSamAlphaRemake/Sources/build-aarch64 ecc
+            make -j4 -C SeriousSamAlphaRemake/Sources/build-aarch64
+            cp -vfr SeriousSamAlphaRemake/Sources/build-aarch64/Debug/*.so SeriousSamAlphaRemake/x64/SamTFE/SSA/SeriousSamPlusPlus/Bin            
+            mv SeriousSamAlphaRemake/x64 aarch64
+            XZ_DEFAULTS="-T 10" tar --use-compress-program=xz -cpvf SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-rpios-aarch64-bin.tar.xz aarch64
+            cp SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-rpios-aarch64-bin.tar.xz Release/
+    - name: Prepare Release
+      run: |           
+         sudo mv ${{github.workspace}}/Release/SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-rpios-aarch64-bin.tar.xz ${{github.workspace}}/
+                        
+    - name: Upload Release
+      uses: actions/upload-artifact@v3
+      with:
+        name: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-rpios-aarch64-bin.tar.xz
+        path: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-rpios-aarch64-bin.tar.xz
