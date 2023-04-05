@@ -447,7 +447,7 @@ jobs:
             cmake SeriousSamAlphaRemake/Sources -B SeriousSamAlphaRemake/Sources/build-aarch64 -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }} -DTFE=TRUE -DRPI4=TRIE
             make -C SeriousSamAlphaRemake/Sources/build-aarch64 ecc
             make -j4 -C SeriousSamAlphaRemake/Sources/build-aarch64
-            cp -vfr SeriousSamAlphaRemake/Sources/build-aarch64/Debug/*.so SeriousSamAlphaRemake/x64/SamTFE/SSA/Bin            
+            cp -vfr SeriousSamAlphaRemake/Sources/build-aarch64/Debug/*.so SeriousSamAlphaRemake/x64/SamTFE/Mods/SSA/Bin             
             mv SeriousSamAlphaRemake/x64 aarch64
             XZ_DEFAULTS="-T 10" tar --use-compress-program=xz -cpvf SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-rpios-aarch64-bin.tar.xz aarch64
             cp SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-rpios-aarch64-bin.tar.xz Release/
