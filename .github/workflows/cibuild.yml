@@ -384,7 +384,7 @@ jobs:
             uname -a
             gcc -c -Q -mcpu=native --help=target
             git clone https://github.com/tx00100xt/SeriousSamAlphaRemake.git
-            cmake SeriousSamAlphaRemake/Sources -B SeriousSamAlphaRemake/Sources/build-armv7l -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }} -DCMAKE_C_FLAGS=-mbe32 -DCMAKE_CXX_FLAGS=-mbe32 -DUSE_I386_NASM_ASM=FALSE -DTFE=TRUE -DRPI4=TRIE
+            cmake SeriousSamAlphaRemake/Sources -B SeriousSamAlphaRemake/Sources/build-armv7l -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }} -DUSE_I386_NASM_ASM=FALSE -DTFE=TRUE -DRPI4=TRIE
             make -C SeriousSamAlphaRemake/Sources/build-armv7l ecc
             make -j4 -C SeriousSamAlphaRemake/Sources/build-armv7l
             cp -vfr SeriousSamAlphaRemake/Sources/build-armv7l/Debug/*.so SeriousSamAlphaRemake/x32/SamTFE/Mods/SSA/Bin           
