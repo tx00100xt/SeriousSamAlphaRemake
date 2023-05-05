@@ -552,8 +552,8 @@ jobs:
             cd ${{github.workspace}}
             echo "*** Copy SSA Libraries ***"
             echo "cp -vfr Sources/build/Debug/*.so riscv64/SamTFE/Mods/SSA/Bin"
-            cp -vfr Sources/build-xplus/Debug/libEntities.so riscv64/SamTFE/Mods/SSA/Bin
-            cp -vfr Sources/build-xplus/Debug/libGame.so riscv64/SamTFE/Mods/SSA/Bin
+            cp -vfr Sources/build/Debug/libEntities.so riscv64/SamTFE/Mods/SSA/Bin
+            cp -vfr Sources/build/Debug/libGame.so riscv64/SamTFE/Mods/SSA/Bin
 
             echo "*** Create archive ***"
             tar -cJpvf SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-lnx-riscv64-bin.tar.xz riscv64          
