@@ -21,6 +21,10 @@ Zdzichu is author this mod for windows.
 ![Ice Planet End](https://raw.githubusercontent.com/tx00100xt/SeriousSamAlphaRemake/main/Images/alpharemake_3.png)
 
 Download [SeriousSamAlphaRemake_v1.5.7z] archive and unpack to  SeriousSamClassic/SamTFE/ directory.
+You can also download the archive using curl or wget:
+```
+wget https://archive.org/download/serious-sam-alpha-remake-mod-data/SeriousSamAlphaRemake_v1.5.7z
+```
 To start the modification, use the game menu - item Modification.
 
 Building Serious Sam Alpha Remake.
