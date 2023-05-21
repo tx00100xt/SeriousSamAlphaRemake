@@ -116,7 +116,7 @@ jobs:
         
   build-ubuntu-x86:
     name: Ubuntu ${{ matrix.Configuration }} ${{ matrix.Platform }}
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
       matrix:
