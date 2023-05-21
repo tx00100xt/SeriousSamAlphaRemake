@@ -113,59 +113,7 @@ jobs:
       with:
         name: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-alpne-x86_64-bin.tar.xz
         path: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-alpne-x86_64-bin.tar.xz
-        
-  build-ubuntu-x86:
-    name: Ubuntu ${{ matrix.Configuration }} ${{ matrix.Platform }}
-    runs-on: ubuntu-20.04
-    strategy:
-      fail-fast: false
-      matrix:
-        Configuration: [Release]
-        Platform: [x86]
-
-    steps:
-    - uses: actions/checkout@v3
-
-    - name: Install packages
-      run: |
-          sudo dpkg --add-architecture i386
-          sudo apt-get update -qq
-          sudo apt-get -y install --allow-downgrades gcc-multilib g++-multilib ninja-build libglib2.0-dev:i386 libjpeg-dev:i386 libsdl2-dev:i386 libcurl4-openssl-dev:i386 &&
-          sudo apt-get -y install --allow-downgrades libsdl2-dev:i386 libogg-dev:i386 libvorbis-dev:i386 &&
-          sudo apt-get -y install --allow-downgrades bison flex sed zlib1g-dev:i386      
-
-    - name: Get current date
-      id: date
-      uses: Kaven-Universe/github-action-current-date-time@v1
-      with:
-         format: "YYYYMMDD"
-
-    - name: Show current date
-      run: |
-        echo "${{ steps.date.outputs.time }}"
-        
-    - name: Run CMake
-      run: |
-          cd ${{github.workspace}}/Sources
-          find . -name "CMakeLists.txt" -exec sed -i 's/-march=native/-mtune=generic/g' {} +
-          cat CMakeLists.txt | grep mtune
-          cmake -B ${{github.workspace}}/Sources/build-x86 -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }} -DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32 -DUSE_I386_NASM_ASM=TRUE -DTFE=TRUE
-          
-    - name: Run Build
-      run: |
-          cd ${{github.workspace}}/Sources/build-x86    
-          make ecc
-          make -j$(nproc || echo 4)
-          cp -vfr Debug/*.so ../../x32/SamTFE/Mods/SSA/Bin
-          cd ${{github.workspace}}
-          XZ_DEFAULTS="-T 10" tar --use-compress-program=xz -cpvf SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-lnx-x86-bin.tar.xz x32
-          
-    - name: Upload artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-lnx-x86-bin.tar.xz
-        path: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-lnx-x86-bin.tar.xz 
-        
+              
   bild-ubuntu-x64:
     name: Ubuntu ${{ matrix.Configuration }} ${{ matrix.Platform }}
     runs-on: ubuntu-latest
