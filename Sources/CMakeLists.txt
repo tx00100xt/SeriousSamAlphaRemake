@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.7)
+cmake_minimum_required(VERSION 2.8.12)
 project(SeriousEngine)
 
 # Set @rpath for Mac OS X shared library install names.
@@ -67,10 +67,31 @@ if(CMAKE_INSTALL_PREFIX STREQUAL "/usr/local" OR CMAKE_INSTALL_PREFIX STREQUAL "
                                                         # since one wasn't set during config
     set(LOCAL_INSTALL TRUE)
 endif()
+if(CMAKE_INSTALL_PREFIX STREQUAL "/usr" ) # Only works for linux since I don't know what default is for windows/macos/freebsd.
+    set(LOCAL_INSTALL FALSE)
+endif()
+
+if(NOT LOCAL_INSTALL)
+	find_package(ImageMagick COMPONENTS convert)
+    if(ImageMagick_convert_FOUND)
+        #message(STATUS "ImageMagick convert found: ${ImageMagick_convert_EXECUTABLE}")
+    else()
+        message(FATAL_ERROR "Error! USE_SYSTEM_ZLIB is set but neccessary developer files are missing")
+    endif()
+endif()
+
+# Set internal name for not local installation
+if(TFE)
+    set(INTERNAL_NAME "serioussam")
+else()
+    set(INTERNAL_NAME "serioussamse")
+endif()
 
 # Set up some sanity stuff...
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux" OR CMAKE_SYSTEM_NAME MATCHES "GNU|kFreeBSD")
     SET(LINUX TRUE)
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}  -Wno-reorder -Wno-unused-but-set-variable -Wno-maybe-uninitialized -Wno-class-memaccess -Wno-unused-function -Wno-format")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -Wno-reorder -Wno-unused-but-set-variable -Wno-maybe-uninitialized -Wno-class-memaccess -Wno-unused-function -Wno-format")
 endif()
 if(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
     SET(FREEBSD TRUE)
@@ -90,6 +111,92 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     SET(DEBUG TRUE)
 endif()
 
+if (LINUX)
+    set (CMAKE_OS_NAME "GNU/Linux" CACHE STRING "Operating system name" FORCE)
+    ## Check for Debian GNU/Linux
+    find_file (DEBIAN_FOUND debian_version debconf.conf
+      PATHS /etc
+      )
+    if (DEBIAN_FOUND)
+      set (CMAKE_OS_NAME "Debian" CACHE STRING "Operating system name" FORCE)
+    endif (DEBIAN_FOUND)
+    ##  Check for Fedora
+    find_file (FEDORA_FOUND fedora-release
+      PATHS /etc
+      )
+    if (FEDORA_FOUND)
+      set (CMAKE_OS_NAME "Fedora" CACHE STRING "Operating system name" FORCE)
+    endif (FEDORA_FOUND)
+    ##  Check for RedHat
+    find_file (REDHAT_FOUND redhat-release inittab.RH
+      PATHS /etc
+      )
+    if (REDHAT_FOUND)
+      set (CMAKE_OS_NAME "RedHat" CACHE STRING "Operating system name" FORCE)
+    endif (REDHAT_FOUND)   
+    ## Extra check for Ubuntu    
+    if (DEBIAN_FOUND)
+      ## At its core Ubuntu is a Debian system, with
+      ## a slightly altered configuration; hence from
+      ## a first superficial inspection a system will
+      ## be considered as Debian, which signifies an
+      ## extra check is required.
+      find_file (UBUNTU_EXTRA legal issue
+	PATHS /etc
+	)
+    if (UBUNTU_EXTRA)
+	## Scan contents of file
+	file (STRINGS ${UBUNTU_EXTRA} UBUNTU_FOUND
+	  REGEX Ubuntu
+	  )
+	## Check result of string search
+	if (UBUNTU_FOUND)
+	  set (CMAKE_OS_NAME "Ubuntu" CACHE STRING "Operating system name" FORCE)
+	  set (DEBIAN_FOUND FALSE)
+	endif (UBUNTU_FOUND)
+    endif (UBUNTU_EXTRA)      
+    endif (DEBIAN_FOUND)
+endif (LINUX)
+
+message(STATUS "Operating system name: ${CMAKE_OS_NAME}")
+
+set(CMAKE_ARCH_BITS 32)
+set(CMAKE_INSTALL_LIBDIR "/usr/lib")
+if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+    set(CMAKE_ARCH_BITS 64)
+    set(CMAKE_INSTALL_LIBDIR "/usr/lib64")
+endif()
+
+message(STATUS "Arch bits: ${CMAKE_ARCH_BITS}")
+
+if(DEBIAN_FOUND OR UBUNTU_FOUND)
+    #set libdir for debian based OS
+    if(${CMAKE_SYSTEM_PROCESSOR} MATCHES "riscv64")
+        set(CMAKE_INSTALL_LIBDIR "/usr/lib/riscv64-linux-gnu")
+    elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(arm.*|ARM.*)")  # 32bit)
+        set(CMAKE_INSTALL_LIBDIR "/usr/lib/arm-linux-gnueabihf")
+    elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(aarch64.*|AARCH64.*)")
+        set(CMAKE_INSTALL_LIBDIR "/usr/lib/aarch64-linux-gnu")
+        if(NOT "${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
+            message(FATAL_ERROR "invalid pointer size")
+        endif()
+    elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(powerpc|ppc)64")
+        set(CMAKE_INSTALL_LIBDIR "/usr/lib/powerpc64-linux-gnu")
+    elseif(CMAKE_SYSTEM_PROCESSOR STREQUAL s390x)
+        set(CMAKE_INSTALL_LIBDIR "/usr/lib/s390x-linux-gnu")
+    elseif((CMAKE_SYSTEM_PROCESSOR MATCHES "i386|i686|x86|AMD64") AND (CMAKE_SIZEOF_VOID_P EQUAL 4))
+        set(CMAKE_INSTALL_LIBDIR "/usr/lib/i386-linux-gnu")
+    elseif((CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64|AMD64") AND (CMAKE_SIZEOF_VOID_P EQUAL 8))
+        set(CMAKE_INSTALL_LIBDIR "/usr/lib/x86_64-linux-gnu")
+    elseif((CMAKE_SYSTEM_PROCESSOR MATCHES "i386") AND (CMAKE_SIZEOF_VOID_P EQUAL 8) AND (APPLE))
+        set(CMAKE_INSTALL_LIBDIR "/usr/lib/i386-linux-gnu")
+    else()
+        message(FATAL_ERROR "Unknown architecture")
+    endif()
+endif()
+
+message(STATUS "Installed libraries dir: ${CMAKE_INSTALL_LIBDIR}")
+
 ## ** RAKE! start compiler specific flags section **
 ## ** RAKE! Borrowed from dhewm3 project, need to **
 ## ** RAKE! clean up for SeriousEngine use. Also  **
@@ -108,10 +215,14 @@ if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_C_COMPILER_ID STREQUAL "Clang")
 		    add_compile_options(-fomit-frame-pointer)
 			message(STATUS "Architecture RISCV64, -march=rv64gc")
 		else()
-			add_compile_options(-march=native)
+            if(LOCAL_INSTALL)
+			    add_compile_options(-march=native)
+            elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "i386|i586|i686|x86|AMD64|x86_64")
+			    add_compile_options(-march=native) # set mtune=generic if nedded
+		    endif()
 		endif()
 	endif()
-	if(NOT RPI4 AND CMAKE_SYSTEM_PROCESSOR MATCHES "^arm.*")
+	if((PYRA OR PANDORA)  AND (CMAKE_SYSTEM_PROCESSOR MATCHES "^arm.*"))
 		if(PYRA)
 		add_compile_options(-mfpu=neon-vfpv4)
 		add_compile_options(-mcpu=cortex-a15)
@@ -119,16 +230,18 @@ if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_C_COMPILER_ID STREQUAL "Clang")
 		add_compile_options(-marm)
                 elseif(NOT (MACOSX AND CMAKE_SYSTEM_PROCESSOR STREQUAL "arm64"))
                     add_compile_options(-mfpu=neon)
-		else()
+		elseif(PANDORA)
 		add_compile_options(-mfpu=neon)
 		endif()
 		add_compile_options(-fsigned-char)
 	endif()
-    if(RPI4 AND ${CMAKE_HOST_SYSTEM_PROCESSOR} MATCHES "arm*")
+    if(NOT PYRA AND NOT PANDORA AND ${CMAKE_HOST_SYSTEM_PROCESSOR} MATCHES "arm*")
         if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(arm.*|ARM.*)")  # 32bit
             add_compile_options(-march=armv8-a+crc)
 		    add_compile_options(-mfpu=neon-fp-armv8)
-		    add_compile_options(-mcpu=cortex-a53)
+            if(RPI4) 
+		        add_compile_options(-mcpu=cortex-a72)
+            endif()
 		    add_compile_options(-mfloat-abi=hard)
 		    add_compile_options(-ftree-vectorize)
 		    add_compile_options(-fomit-frame-pointer)
@@ -138,7 +251,9 @@ if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_C_COMPILER_ID STREQUAL "Clang")
                 message(FATAL_ERROR "invalid pointer size")
             endif()
             add_compile_options(-march=armv8-a+crc+fp+simd)
-		    add_compile_options(-mcpu=cortex-a53)
+            if(RPI4) 
+		        add_compile_options(-mcpu=cortex-a72)
+            endif()
 		    add_compile_options(-ftree-vectorize)
 		    add_compile_options(-fomit-frame-pointer)
             message(STATUS "AARCH64, -march=armv8-a+crc+fp+simd")
@@ -307,6 +422,11 @@ if (PYRA)
     add_definitions(-DPLATFORM_PYRA=1)
 endif()
 
+option(RPI4 "Raspberry PI 4" FALSE)
+if(RPI4)
+    add_definitions(-DPLATFORM_RPI4=1)
+endif()
+
 option(USE_TREMOR "Use Tremor instead of Vorbis" FALSE)
 if (USE_TREMOR)
     add_definitions(-DUSE_TREMOR=1)
@@ -322,7 +442,7 @@ endif()
 
 
 # !!! FIXME: I currently force this, but you shouldn't _have_ to.
-option(USE_SINGLE_THREAD "Use Single Threaded version" TRUE)
+option(USE_SINGLE_THREAD "Use Single Threaded version" FALSE)
 if(USE_SINGLE_THREAD)
  add_definitions(-DSINGLE_THREADED=1)
 endif()
@@ -768,24 +888,26 @@ endif()
 
 
 # RAKE! Install Section.
-if(DEBUG) # RAKE! Will this work with TFE?
-    install(TARGETS ${SHADERSLIB} ${GAMEMPLIB} ${ENTITIESMPLIB}
-            RUNTIME DESTINATION "${CMAKE_INSTALL_PREFIX}/Bin"
+if(LOCAL_INSTALL)
+    if(DEBUG) # RAKE! Will this work with TFE?
+        install(TARGETS ${GAMEMPLIB} ${ENTITIESMPLIB}
             LIBRARY DESTINATION "${CMAKE_INSTALL_PREFIX}/Bin/Debug"
             PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_WRITE GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
-else()
-    install(TARGETS ${SHADERSLIB} ${GAMEMPLIB} ${ENTITIESMPLIB}
-            RUNTIME DESTINATION "${CMAKE_INSTALL_PREFIX}/Bin"
+    else()
+        install(TARGETS ${GAMEMPLIB} ${ENTITIESMPLIB}
             LIBRARY DESTINATION "${CMAKE_INSTALL_PREFIX}/Bin"
             PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_WRITE GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
-endif()
-
-# RAKE! If CMAKE_INSTALL_PREFIX was set during config then its not a local install
-# and SE1_10.gro needs to be installed to Games root dir.
-if(NOT LOCAL_INSTALL)
-    install(FILES ${CMAKE_SOURCE_DIR}/../SE1_10.gro
-            DESTINATION ${CMAKE_INSTALL_PREFIX}
+    endif()
+else()
+    if(DEBUG) # RAKE! Will this work with TFE?
+        install(TARGETS ${GAMEMPLIB} ${ENTITIESMPLIB}
+            RUNTIME DESTINATION "${CMAKE_INSTALL_LIBDIR}/${INTERNAL_NAME}/Mods/SSA/Debug"
             PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_WRITE GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
+    else()
+        install(TARGETS ${GAMEMPLIB} ${ENTITIESMPLIB}
+            LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}/${INTERNAL_NAME}/Mods/SSA"
+            PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_WRITE GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
+    endif()
 endif()
 
 # end of CMakeLists.txt ...

@@ -37,7 +37,7 @@ Type this in your terminal:
 ```
 git clone https://github.com/tx00100xt/SeriousSamAlphaRemake.git SeriousSamAlphaRemake
 cd SeriousSamAlphaRemake/Sources
-./build-linux64.sh -DTFE=TRUE	# use build-linux32.sh for 32-bits
+./build-linux64.sh					# use build-linux32.sh for 32-bits
 ```
 After that , libraries will be collected in the x32 or x64 directory . Copy them to SeriousSamClassic/SamTFE/Mods/SSA/Bin folder.
 
@@ -55,7 +55,7 @@ The build for raspberry pi is similar to the build for Linux, you just need to a
 
 ```
 cd SeriousSamAlphaRemake/Sources
-./build-linux64.sh -DTFE=TRUE -DRPI4=TRUE	# use build-linux32.sh for 32-bits
+./build-linux64.sh -DRPI4=TRUE		# use build-linux32.sh for 32-bits
 ```
 ### FreeBSD
 
@@ -65,7 +65,7 @@ Type this in your terminal:
 ```
 git clone https://github.com/tx00100xt/SeriousSamAlphaRemake.git SeriousSamAlphaRemake
 cd SeriousSamAlphaRemake/Sources
-bash build-linux64.sh -DTFE=TRUE	# use build-linux32.sh for 32-bits
+bash build-linux64.sh 				# use build-linux32.sh for 32-bits
 ```
 After that , libraries will be collected in the x32 or x64 directory . Copy them to SeriousSamClassic/SamTFE/Mods/SSA/Bin folder.
 
@@ -93,7 +93,7 @@ Supported OS
 ### Build status
 |CI|Platform|Compiler|Configurations|Platforms|Status|
 |---|---|---|---|---|---|
-|GitHub Actions|Windows, Ubuntu, FreeBSD, Alpine, Raspberry PI OS Lite|MSVC, GCC, Clang|Release|x86, x64, armv7l, aarch64, riscv64|![GitHub Actions Build Status](https://github.com/tx00100xt/SeriousSamAlphaRemake/actions/workflows/cibuild.yml/badge.svg)
+|GitHub Actions|Windows, Ubuntu, FreeBSD, Alpine, Raspberry PI OS Lite|MSVC, GCC, Clang|Release|x86, x64, armv7l, aarch64, riscv64, ppc64le, s390x|![GitHub Actions Build Status](https://github.com/tx00100xt/SeriousSamAlphaRemake/actions/workflows/cibuild.yml/badge.svg)
 
 You can download a the automatically build based on the latest commit.  
 To do this, go to the [Actions tab], select the top workflows, and then Artifacts.
