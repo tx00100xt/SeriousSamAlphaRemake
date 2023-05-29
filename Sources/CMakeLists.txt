@@ -71,15 +71,6 @@ if(CMAKE_INSTALL_PREFIX STREQUAL "/usr" ) # Only works for linux since I don't k
     set(LOCAL_INSTALL FALSE)
 endif()
 
-if(NOT LOCAL_INSTALL)
-	find_package(ImageMagick COMPONENTS convert)
-    if(ImageMagick_convert_FOUND)
-        #message(STATUS "ImageMagick convert found: ${ImageMagick_convert_EXECUTABLE}")
-    else()
-        message(FATAL_ERROR "Error! USE_SYSTEM_ZLIB is set but neccessary developer files are missing")
-    endif()
-endif()
-
 # Set internal name for not local installation
 if(TFE)
     set(INTERNAL_NAME "serioussam")
