@@ -23,7 +23,7 @@ Zdzichu is author this mod for windows.
 Download [SeriousSamAlphaRemake_v1.5.7z] archive and unpack to  SeriousSamClassic/SamTFE/ directory.
 You can also download the archive using curl or wget:
 ```
-wget https://archive.org/download/serious-sam-alpha-remake-mod-data/SeriousSamAlphaRemake_v1.5.7z
+wget https://archive.org/download/serioussam-alpharemake-mod-data/SeriousSamAlphaRemake_v1.5.7z
 ```
 To start the modification, use the game menu - item Modification.
 
