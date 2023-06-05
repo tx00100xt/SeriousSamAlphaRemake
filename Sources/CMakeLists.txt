@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 2.8.12)
 project(SeriousEngine)
 
+# set minimal standart
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 # Set @rpath for Mac OS X shared library install names.
 #cmake_policy(SET CMP0042 NEW)
 
@@ -8,7 +12,6 @@ project(SeriousEngine)
 option(USE_SYSTEM_SDL2 "Use systems sdl2 development files" On)
 option(USE_SYSTEM_ZLIB "Use systems zlib development files" On)
 option(USE_CCACHE "Set to ON to use ccache if present in the system" ${USE_CCACHE})
-
 
 # fallback for cmake versions without add_compile_options # RAKE! Borrowed from dhewm3 project
 if(NOT COMMAND add_compile_options)
@@ -92,6 +95,12 @@ if(APPLE)
 endif()
 if(MSVC)
     SET(WINDOWS TRUE)
+endif()
+
+# remove clang spam.
+if(MACOSX OR FREEBSD)
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-nullability-completeness")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-nullability-completeness")
 endif()
 
 if(NOT CMAKE_BUILD_TYPE)
@@ -193,12 +202,13 @@ message(STATUS "Installed libraries dir: ${CMAKE_INSTALL_LIBDIR}")
 ## ** RAKE! clean up for SeriousEngine use. Also  **
 ## ** RAKE! need to make this pandora safe.	  **
 # compiler specific flags
-if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_C_COMPILER_ID STREQUAL "Clang")
+if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_C_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "AppleClang")
 	# This section and the like are for flags/defines that can be shared between 
 	# c and c++ compile options
 	add_compile_options(-Wall)
 	add_compile_options(-pipe)
 	add_compile_options(-fPIC)
+	add_compile_options(-fms-extensions)
 	if(NOT PANDORA AND NOT PYRA AND NOT RPI4 AND NOT (MACOSX AND CMAKE_SYSTEM_PROCESSOR STREQUAL "arm64"))
 		if(${CMAKE_SYSTEM_PROCESSOR} MATCHES "riscv64")
 			add_compile_options(-march=rv64gc)
@@ -322,6 +332,8 @@ if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_C_COMPILER_ID STREQUAL "Clang")
 		add_definitions(-DPLATFORM_UNIX=1)
     		add_definitions(-DPLATFORM_MACOSX=1)
     		add_definitions(-DPRAGMA_ONCE=1)
+    		include_directories("/usr/local/include")
+    		include_directories("/usr/X11/include/")
 	elseif(WINDOWS)
 		add_definitions(-DPLATFORM_WIN32=1)
     		add_definitions(-DPRAGMA_ONCE=1)

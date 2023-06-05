@@ -288,7 +288,48 @@ jobs:
           name: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-bsd-amd64-bin.tar.xz
           path: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-bsd-amd64-bin.tar.xz      
 
-     
+  build-macos-x64:
+    name: macOS ${{ matrix.Configuration }} ${{ matrix.Platform }}
+    runs-on: macos-12
+    strategy:
+      fail-fast: false
+      matrix:
+        Configuration: [Release]
+        Platform: [x64]    
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get current date
+        id: date
+        uses: Kaven-Universe/github-action-current-date-time@v1
+        with:
+          format: "YYYYMMDD"
+
+      - name: Show current date
+        run: |
+          echo "${{ steps.date.outputs.time }}"
+          
+      - name: Build on macOS
+        run: |
+            uname -a
+            brew install bison flex sdl2 libogg libvorbis zlib-ng cmake vulkan-loader vulkan-headers
+            cd ${{github.workspace}}/Sources
+            awk '{sub("-march=native","-mtune=generic")}1' CMakeLists.txt > CmakeTemp.txt && mv CmakeTemp.txt CMakeLists.txt
+            cat CMakeLists.txt | grep mtune
+            cmake -B ${{github.workspace}}/Sources/build-x64 -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }} -DTFE=TRUE
+            cd ${{github.workspace}}/Sources/build-x64
+            make ecc
+            make -j$(sysctl -n hw.ncpu || echo 4)
+            cp -vfr Debug/*.dylib ../../x64/SamTFE/Mods/SSA/Bin
+            cd ${{github.workspace}}
+            XZ_DEFAULTS="-T 10" tar --use-compress-program=xz -cpvf SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-macos-amd64-bin.tar.xz x64
+                      
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-macos-amd64-bin.tar.xz
+          path: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-macos-amd64-bin.tar.xz     
+   
   build-raspios-armv7l:
     name: RPi OS Lite ${{ matrix.Configuration }} ${{ matrix.arch }}
     runs-on: ubuntu-latest
