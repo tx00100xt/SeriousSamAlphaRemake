@@ -79,11 +79,30 @@ Install bash.
 Type this in your terminal:
 
 ```
-git clone https://github.com/tx00100xt/SeriousSamAlphaRemake.git SeriousSamAlphaRemake
+git clone https://github.com/tx00100xt/SeriousSamAlphaRemake.git
 cd SeriousSamAlphaRemake/Sources
 bash build-linux64.sh 				# use build-linux32.sh for 32-bits
 ```
 After that , libraries will be collected in the x32 or x64 directory . Copy them to SeriousSamClassic/SamTFE/Mods/SSA/Bin folder.
+
+### macOS
+
+Install dependes
+```
+brew install bison flex sdl2 libogg libvorbis zlib-ng cmake git
+```
+Type this in your terminal:
+```
+git clone https://github.com/tx00100xt/SeriousSamAlphaRemake.git
+cd SeriousSamAlphaRemake/Sources
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release -DTFE=TRUE ..
+make ecc
+make -j4
+make install
+```
+After that , libraries will be collected in the x64 directory . Copy them to SeriousSamClassic/SamTFE/Mods/SSA/Bin folder.
 
 Windows
 -------
@@ -105,6 +124,7 @@ Supported OS
 * `FreeBSD`
 * `Windows`
 * `Raspberry PI OS`
+* `macOS`
 
 ### Build status
 |CI|Platform|Compiler|Configurations|Platforms|Status|
