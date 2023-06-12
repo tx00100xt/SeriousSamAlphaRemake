@@ -39,7 +39,7 @@ git clone https://github.com/tx00100xt/SeriousSamAlphaRemake.git SeriousSamAlpha
 cd SeriousSamAlphaRemake/Sources
 ./build-linux64.sh					# use build-linux32.sh for 32-bits
 ```
-After that , libraries will be collected in the x32 or x64 directory . Copy them to SeriousSamClassic/SamTFE/Mods/SSA/Bin folder.
+After that , libraries will be collected in the Mods directory . Copy them to SeriousSamClassic/SamTFE/Mods/SSA/Bin folder.
 
 ### Ubuntu
 Instead of building you can install packages from ppa by adding ppa:tx00100xt/serioussam to your system's Software Sources.
@@ -83,7 +83,7 @@ git clone https://github.com/tx00100xt/SeriousSamAlphaRemake.git
 cd SeriousSamAlphaRemake/Sources
 bash build-linux64.sh 				# use build-linux32.sh for 32-bits
 ```
-After that , libraries will be collected in the x32 or x64 directory . Copy them to SeriousSamClassic/SamTFE/Mods/SSA/Bin folder.
+After that , libraries will be collected in the Mods directory . Copy them to SeriousSamClassic/SamTFE/Mods/SSA/Bin folder.
 
 ### macOS
 
@@ -102,7 +102,7 @@ make ecc
 make -j4
 make install
 ```
-After that , libraries will be collected in the x64 directory . Copy them to SeriousSamClassic/SamTFE/Mods/SSA/Bin folder.
+After that , libraries will be collected in the Mods directory . Copy them to SeriousSamClassic/SamTFE/Mods/SSA/Bin folder.
 
 Windows
 -------
