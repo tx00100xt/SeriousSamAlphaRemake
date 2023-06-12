@@ -438,7 +438,7 @@ if (USE_TREMOR)
     add_definitions(-DUSE_TREMOR=1)
 endif()
 
-option(TFE "Compile a The First Encounter version" FALSE)
+option(TFE "Compile a The First Encounter version" TRUE)
 if (TFE)
  add_definitions(-DFIRST_ENCOUNTER=1)
  set(MP "")
