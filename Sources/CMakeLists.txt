@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.7)
 project(SeriousEngine)
 
 # set minimal standart
@@ -12,6 +12,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 option(USE_SYSTEM_SDL2 "Use systems sdl2 development files" On)
 option(USE_SYSTEM_ZLIB "Use systems zlib development files" On)
 option(USE_CCACHE "Set to ON to use ccache if present in the system" ${USE_CCACHE})
+option(USE_SYSTEM_INSTALL "Install to systems directories" Off)
 
 # fallback for cmake versions without add_compile_options # RAKE! Borrowed from dhewm3 project
 if(NOT COMMAND add_compile_options)
@@ -61,102 +62,208 @@ if(USE_SYSTEM_ZLIB)
     else()
         message(FATAL_ERROR "Error! USE_SYSTEM_ZLIB is set but neccessary developer files are missing")
     endif()
+else()
+    add_definitions(-DSE1_ZLIB=1)
+endif()
+
+option(USE_ASM "Use ASM code" TRUE)
+if (USE_ASM)
+    MESSAGE(STATUS "Using assembler code (when available)")
+else()
+    add_definitions(-DUSE_PORTABLE_C=1)
+    MESSAGE(STATUS "Using portable C instead of all ASM")
+endif()
+
+set(INTERNAL_NAME "serioussam")
+option(TFE "Compile a The First Encounter version" TRUE)
+add_definitions(-DFIRST_ENCOUNTER=1)
+set(MP "")
+
+###############################################################
+###############################################################
+###############################################################
+
+# Set up some sanity stuff...
+# Note:
+# "-rpath,$ORIGIN" allows you not to use LD_LIBRARY_PATH and is well suited for local installation
+# "-rpath,$ORIGIN" don't like new versions of clang + ninja and crashes during linking of the Engine library
+# "-rpath=/tmp" is suitable for linking clang + ninja and installing the game into the system
+# "-rpath=/var/tmp/portage" is suitable for Gentoo and installing the game into the system
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux" OR CMAKE_SYSTEM_NAME MATCHES "GNU")
+    set(LINUX TRUE)
+    message(STATUS "Set GNU Linux TRUE")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-reorder -Wno-unused-but-set-variable -Wno-maybe-uninitialized -Wno-class-memaccess -Wno-unused-function")
+    if(CMAKE_OS_NAME STREQUAL "Gentoo" AND USE_SYSTEM_INSTALL)
+      set(RPATH_SETTINGS "-rpath=/var/tmp/portage")
+      message(STATUS "Build for Gentoo with '-rpath=/var/tmp/portage'")
+    else()
+      set(RPATH_SETTINGS "-rpath,$ORIGIN")
+    endif()
+endif()
+if(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" OR CMAKE_SYSTEM_NAME STREQUAL "OpenBSD" OR CMAKE_SYSTEM_NAME STREQUAL "NetBSD")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-but-set-variable -Wno-uninitialized -Wno-unused-function")
+    set(FREEBSD TRUE)
+    if(CMAKE_GENERATOR STREQUAL "Unix Makefiles")                                  # for local instal
+      if(CMAKE_SYSTEM_PROCESSOR MATCHES "i386|i686|x86|amd64|AMD64" AND CMAKE_SIZEOF_VOID_P EQUAL 4)
+        if(USE_ASM)
+          set(RPATH_SETTINGS "-z,notext,-rpath,$ORIGIN")
+          message(STATUS "Arch i386 using -Wl,-z,notext LD flags")
+        else()
+          set(RPATH_SETTINGS "-rpath,$ORIGIN")
+          message(STATUS "Arch i386 portable C instead of all ASM")
+        endif()
+      else()
+        set(RPATH_SETTINGS "-rpath,$ORIGIN")
+      endif()
+      message(STATUS "Using cmake generator 'Unix Makefiles'")
+    elseif(CMAKE_GENERATOR STREQUAL "Ninja")                                       # defalt for install to the system
+      if(CMAKE_SYSTEM_PROCESSOR MATCHES "i386|i686|x86|amd64|AMD64" AND CMAKE_SIZEOF_VOID_P EQUAL 4)
+        if(USE_ASM)
+          set(RPATH_SETTINGS "-z,notext,-rpath=/tmp")
+          message(STATUS "Arch i386 using -Wl,-z,notext LD flags")
+        else()
+          set(RPATH_SETTINGS "-rpath=/tmp")
+          message(STATUS "Arch i386 portable C instead of all ASM")
+        endif()
+      else()
+        set(RPATH_SETTINGS "-rpath=/tmp")
+      endif()  
+      message(STATUS "Using cmake generator 'Ninja'")
+    else()
+        message(FATAL_ERROR "Unknown cmake generator")
+    endif()
+endif()
+
+if(APPLE)
+    set(MACOSX TRUE)
+    if(CMAKE_GENERATOR STREQUAL "Unix Makefiles")
+      set(RPATH_SETTINGS "-rpath,$ORIGIN")
+      message(STATUS "Using cmake generator 'Unix Makefiles'")
+    elseif(CMAKE_GENERATOR STREQUAL "Ninja")
+      set(RPATH_SETTINGS "-rpath=/tmp")     
+      message(STATUS "Using cmake generator 'Ninja'")
+    else()
+        message(FATAL_ERROR "Unknown cmake generator")
+    endif()
+endif()
+
+if(MSVC)
+    set(WINDOWS TRUE)
 endif()
 
 # RAKE! Where to install the binaries.
 if(CMAKE_INSTALL_PREFIX STREQUAL "/usr/local" OR CMAKE_INSTALL_PREFIX STREQUAL "") # Only works for linux since I don't
                                                                                    # know what default is for windows/macos/freebsd.
-    set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/../") # set install path to project root directory since
-                                                        # since one wasn't set during config
-    set(LOCAL_INSTALL TRUE)
+    if("${Found_Sam}" EQUAL "0")
+        if(INTERNAL_NAME STREQUAL "serioussam")
+            set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/SamTFE/Sources/../")     # set install path to project root directory since
+        else()                                                                     # since one wasn't set during config
+            set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/SamTSE/Sources/../")     # set install path to project root directory since
+        endif()                                                                    # since one wasn't set during config
+    else()
+        set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/../")                        # set install path to project root directory since
+    endif()                                                                        # since one wasn't set during config
+    if(NOT USE_SYSTEM_INSTALL)
+        set(LOCAL_INSTALL TRUE)
+        message(STATUS "Using LOCAL Install")
+    endif() 
 endif()
-if(CMAKE_INSTALL_PREFIX STREQUAL "/usr" ) # Only works for linux since I don't know what default is for windows/macos/freebsd.
+if(CMAKE_INSTALL_PREFIX STREQUAL "/usr" OR USE_SYSTEM_INSTALL)
     set(LOCAL_INSTALL FALSE)
+    message(STATUS "Using SYSTEM Install")
+    if(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" OR CMAKE_SYSTEM_NAME STREQUAL "OpenBSD")
+        set(CMAKE_INSTALL_PREFIX "/usr/local")
+    elseif(CMAKE_SYSTEM_NAME STREQUAL "NetBSD")
+        set(CMAKE_INSTALL_PREFIX "/usr/pkg")
+    else()
+        set(CMAKE_INSTALL_PREFIX "/usr")  
+    endif()
 endif()
 
-# Set internal name for not local installation
-if(TFE)
-    set(INTERNAL_NAME "serioussam")
-else()
-    set(INTERNAL_NAME "serioussamse")
-endif()
-
-# Set up some sanity stuff...
-if(CMAKE_SYSTEM_NAME STREQUAL "Linux" OR CMAKE_SYSTEM_NAME MATCHES "GNU|kFreeBSD")
-    SET(LINUX TRUE)
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}  -Wno-reorder -Wno-unused-but-set-variable -Wno-maybe-uninitialized -Wno-class-memaccess -Wno-unused-function -Wno-format")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -Wno-reorder -Wno-unused-but-set-variable -Wno-maybe-uninitialized -Wno-class-memaccess -Wno-unused-function -Wno-format")
-endif()
-if(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
-    SET(FREEBSD TRUE)
-endif()
-if(APPLE)
-    SET(MACOSX TRUE)
-endif()
-if(MSVC)
-    SET(WINDOWS TRUE)
+# ImageMagic needed for SYSTEM INSTALL
+if(NOT LOCAL_INSTALL)
+	find_package(ImageMagick COMPONENTS convert)
+    if(ImageMagick_convert_FOUND)
+        #message(STATUS "ImageMagick convert found: ${ImageMagick_convert_EXECUTABLE}")
+    else()
+        message(FATAL_ERROR "Error! LOCAL_INSTAL is set but neccessary ImageMagick convert are missing")
+    endif()
 endif()
 
 # remove clang spam.
-if(MACOSX OR FREEBSD)
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-nullability-completeness")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-nullability-completeness")
+if(MACOSX)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-nullability-completeness -Wno-deprecated")
 endif()
 
 if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Debug CACHE STRING "None Debug Release RelWithDebInfo MinSizeRel" FORCE)
+    set(CMAKE_BUILD_TYPE Release CACHE STRING "None Debug Release RelWithDebInfo MinSizeRel" FORCE)
 endif()
-SET(DEBUG FALSE)
+set(DEBUG FALSE)
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    SET(DEBUG TRUE)
+    set(DEBUG TRUE)
 endif()
 
-if (LINUX)
-    set (CMAKE_OS_NAME "GNU/Linux" CACHE STRING "Operating system name" FORCE)
+if(LINUX)
+    set(CMAKE_OS_NAME "GNU/Linux" CACHE STRING "Operating system name" FORCE)
     ## Check for Debian GNU/Linux
-    find_file (DEBIAN_FOUND debian_version debconf.conf
-      PATHS /etc
-      )
-    if (DEBIAN_FOUND)
-      set (CMAKE_OS_NAME "Debian" CACHE STRING "Operating system name" FORCE)
-    endif (DEBIAN_FOUND)
+    find_file(DEBIAN_FOUND debian_version debconf.conf
+        PATHS /etc
+    )
+    if(DEBIAN_FOUND)
+        set(CMAKE_OS_NAME "Debian" CACHE STRING "Operating system name" FORCE)
+    endif(DEBIAN_FOUND)
     ##  Check for Fedora
-    find_file (FEDORA_FOUND fedora-release
-      PATHS /etc
-      )
-    if (FEDORA_FOUND)
-      set (CMAKE_OS_NAME "Fedora" CACHE STRING "Operating system name" FORCE)
-    endif (FEDORA_FOUND)
+    find_file(FEDORA_FOUND fedora-release
+        PATHS /etc
+    )
+    if(FEDORA_FOUND)
+        set(CMAKE_OS_NAME "Fedora" CACHE STRING "Operating system name" FORCE)
+    endif(FEDORA_FOUND)
     ##  Check for RedHat
-    find_file (REDHAT_FOUND redhat-release inittab.RH
-      PATHS /etc
-      )
-    if (REDHAT_FOUND)
-      set (CMAKE_OS_NAME "RedHat" CACHE STRING "Operating system name" FORCE)
-    endif (REDHAT_FOUND)   
+    find_file(REDHAT_FOUND redhat-release inittab.RH
+        PATHS /etc
+    )
+    if(REDHAT_FOUND)
+        set(CMAKE_OS_NAME "RedHat" CACHE STRING "Operating system name" FORCE)
+    endif(REDHAT_FOUND)
+    ##  Check for Gentoo
+    find_file(OS_Release_FOUND os-release
+        PATHS /usr/lib
+    )
+    if (OS_Release_FOUND)
+        ## Scan contents of file
+        file(STRINGS ${OS_Release_FOUND} Gentoo_FOUND
+            REGEX Gentoo
+        )
+        ## Check result of string search
+        if(Gentoo_FOUND)
+            set(CMAKE_OS_NAME "Gentoo" CACHE STRING "Operating system name" FORCE)
+            set(DEBIAN_FOUND FALSE)
+        endif(Gentoo_FOUND)
+    endif(OS_Release_FOUND)
     ## Extra check for Ubuntu    
-    if (DEBIAN_FOUND)
+    if(DEBIAN_FOUND)
       ## At its core Ubuntu is a Debian system, with
       ## a slightly altered configuration; hence from
       ## a first superficial inspection a system will
       ## be considered as Debian, which signifies an
       ## extra check is required.
-      find_file (UBUNTU_EXTRA legal issue
-	PATHS /etc
-	)
-    if (UBUNTU_EXTRA)
-	## Scan contents of file
-	file (STRINGS ${UBUNTU_EXTRA} UBUNTU_FOUND
-	  REGEX Ubuntu
-	  )
-	## Check result of string search
-	if (UBUNTU_FOUND)
-	  set (CMAKE_OS_NAME "Ubuntu" CACHE STRING "Operating system name" FORCE)
-	  set (DEBIAN_FOUND FALSE)
-	endif (UBUNTU_FOUND)
-    endif (UBUNTU_EXTRA)      
-    endif (DEBIAN_FOUND)
-endif (LINUX)
+      find_file(UBUNTU_EXTRA legal issue
+        PATHS /etc
+      )
+      if(UBUNTU_EXTRA)
+        ## Scan contents of file
+        file(STRINGS ${UBUNTU_EXTRA} UBUNTU_FOUND
+          REGEX Ubuntu
+        )
+        ## Check result of string search
+        if(UBUNTU_FOUND)
+          set(CMAKE_OS_NAME "Ubuntu" CACHE STRING "Operating system name" FORCE)
+          set(DEBIAN_FOUND FALSE)
+        endif(UBUNTU_FOUND)
+      endif(UBUNTU_EXTRA)      
+    endif(DEBIAN_FOUND)
+endif(LINUX)
 
 message(STATUS "Operating system name: ${CMAKE_OS_NAME}")
 
@@ -165,6 +272,14 @@ set(CMAKE_INSTALL_LIBDIR "/usr/lib")
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
     set(CMAKE_ARCH_BITS 64)
     set(CMAKE_INSTALL_LIBDIR "/usr/lib64")
+endif()
+
+if(FREEBSD)
+    set(CMAKE_INSTALL_LIBDIR "/usr/local/lib")
+endif()
+if(CMAKE_SYSTEM_NAME STREQUAL "NetBSD")
+  include_directories("/usr/pkg/include")
+  set(CMAKE_INSTALL_LIBDIR "/usr/pkg/lib")
 endif()
 
 message(STATUS "Arch bits: ${CMAKE_ARCH_BITS}")
@@ -184,9 +299,9 @@ if(DEBIAN_FOUND OR UBUNTU_FOUND)
         set(CMAKE_INSTALL_LIBDIR "/usr/lib/powerpc64-linux-gnu")
     elseif(CMAKE_SYSTEM_PROCESSOR STREQUAL s390x)
         set(CMAKE_INSTALL_LIBDIR "/usr/lib/s390x-linux-gnu")
-    elseif((CMAKE_SYSTEM_PROCESSOR MATCHES "i386|i686|x86|AMD64") AND (CMAKE_SIZEOF_VOID_P EQUAL 4))
+    elseif((CMAKE_SYSTEM_PROCESSOR MATCHES "i386|i686|x86|amd64|AMD64") AND (CMAKE_SIZEOF_VOID_P EQUAL 4))
         set(CMAKE_INSTALL_LIBDIR "/usr/lib/i386-linux-gnu")
-    elseif((CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64|AMD64") AND (CMAKE_SIZEOF_VOID_P EQUAL 8))
+    elseif((CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64|amd64|AMD64") AND (CMAKE_SIZEOF_VOID_P EQUAL 8))
         set(CMAKE_INSTALL_LIBDIR "/usr/lib/x86_64-linux-gnu")
     elseif((CMAKE_SYSTEM_PROCESSOR MATCHES "i386") AND (CMAKE_SIZEOF_VOID_P EQUAL 8) AND (APPLE))
         set(CMAKE_INSTALL_LIBDIR "/usr/lib/i386-linux-gnu")
@@ -217,11 +332,10 @@ if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_C_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_
 			message(STATUS "Architecture RISCV64, -march=rv64gc")
         elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(powerpc|ppc)64")
 			add_compile_options(-mpowerpc64)
-			#add_compile_options(-m64)
 		else()
             if(LOCAL_INSTALL)
 			    add_compile_options(-march=native)
-            elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "i386|i586|i686|x86|AMD64|x86_64")
+            elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "i386|i586|i686|x86|amd64|AMD64|x86_64")
 			    add_compile_options(-march=native) # set mtune=generic if nedded
 		    endif()
 		endif()
@@ -274,40 +388,40 @@ if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_C_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_
 	## For C flags
         set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS} -g -D_DEBUG=1 -DDEBUG=1 -O0")
         if(PANDORA)
-            set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -g -O3 -faligned-new -ffast-math")
-            set(CMAKE_C_FLAGS_RELWITHDEBINFO "${CMAKE_C_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -g -O3  -faligned-new -ffast-math")
+            set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -g -O2 -faligned-new -ffast-math")
+            set(CMAKE_C_FLAGS_RELWITHDEBINFO "${CMAKE_C_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -g -O2  -faligned-new -ffast-math")
             set(CMAKE_C_FLAGS_MINSIZEREL "${CMAKE_C_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -Os -ffast-math")
         elseif(PYRA)
-            set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -g -O3 -marm -faligned-new -ffast-math")
-            set(CMAKE_C_FLAGS_RELWITHDEBINFO "${CMAKE_C_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -g -O3 -marm -faligned-new -ffast-math")
+            set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -g -O2 -marm -faligned-new -ffast-math")
+            set(CMAKE_C_FLAGS_RELWITHDEBINFO "${CMAKE_C_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -g -O2 -marm -faligned-new -ffast-math")
             set(CMAKE_C_FLAGS_MINSIZEREL "${CMAKE_C_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -Os -marm -ffast-math")
         elseif(MACOSX AND CMAKE_SYSTEM_PROCESSOR STREQUAL "arm64")
             set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -g -O0 -fno-unsafe-math-optimizations")
             set(CMAKE_C_FLAGS_RELWITHDEBINFO "${CMAKE_C_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -g -O0 -fno-unsafe-math-optimizations")
             set(CMAKE_C_FLAGS_MINSIZEREL "${CMAKE_C_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -O0 -fno-unsafe-math-optimizations")
         else()
-            set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -g -O3 -fno-unsafe-math-optimizations")
-            set(CMAKE_C_FLAGS_RELWITHDEBINFO "${CMAKE_C_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -g -O3 -fno-unsafe-math-optimizations")
-            set(CMAKE_C_FLAGS_MINSIZEREL "${CMAKE_C_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -Os -fno-unsafe-math-optimizations")
+            set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -g -O2 -fno-delete-null-pointer-checks -fno-unsafe-math-optimizations")
+            set(CMAKE_C_FLAGS_RELWITHDEBINFO "${CMAKE_C_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -g -O2 -fno-delete-null-pointer-checks -fno-unsafe-math-optimizations")
+            set(CMAKE_C_FLAGS_MINSIZEREL "${CMAKE_C_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -Os -fno-delete-null-pointer-checks -fno-unsafe-math-optimizations")
         endif()
 
 	## For C++ flags
         set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -g -D_DEBUG=1 -DDEBUG=1 -O0")
         if(PANDORA)
-            set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -O3  -faligned-new -ffast-math")
-            set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -g -O3  -faligned-new -ffast-math")
+            set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -O2  -faligned-new -ffast-math")
+            set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -g -O2  -faligned-new -ffast-math")
             set(CMAKE_CXX_FLAGS_MINSIZEREL "${CMAKE_CXX_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -Os -ffast-math")
         elseif(PYRA)
-            set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -O3 -marm -faligned-new -ffast-math")
-            set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -g -O3 -marm -faligned-new -ffast-math")
+            set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -O2 -marm -faligned-new -ffast-math")
+            set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -g -O2 -marm -faligned-new -ffast-math")
             set(CMAKE_CXX_FLAGS_MINSIZEREL "${CMAKE_CXX_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -Os -marm -ffast-math")
         elseif(MACOSX AND CMAKE_SYSTEM_PROCESSOR STREQUAL "arm64")
-            set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -O0 -fno-delete-null-pointer-checks -fno-unsafe-math-optimizations")
-            set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -g -O0 -fno-delete-null-pointer-checks -fno-unsafe-math-optimizations") ## RAKE! Does -DNDEBUG=1 and -D_NDEBUG=1 mess with RelWithDebInfo?
-            set(CMAKE_CXX_FLAGS_MINSIZEREL "${CMAKE_CXX_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -O0 -fno-delete-null-pointer-checks -fno-unsafe-math-optimizations")
+            set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -O0 -fno-unsafe-math-optimizations")
+            set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -g -O0 -fno-unsafe-math-optimizations") ## RAKE! Does -DNDEBUG=1 and -D_NDEBUG=1 mess with RelWithDebInfo?
+            set(CMAKE_CXX_FLAGS_MINSIZEREL "${CMAKE_CXX_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -O0 -fno-unsafe-math-optimizations")
         else()
-            set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -O3 -fno-delete-null-pointer-checks -fno-unsafe-math-optimizations")
-            set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -g -O3 -fno-delete-null-pointer-checks -fno-unsafe-math-optimizations") ## RAKE! Does -DNDEBUG=1 and -D_NDEBUG=1 mess with RelWithDebInfo?
+            set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -O2 -fno-delete-null-pointer-checks -fno-unsafe-math-optimizations")
+            set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -g -O2 -fno-delete-null-pointer-checks -fno-unsafe-math-optimizations") ## RAKE! Does -DNDEBUG=1 and -D_NDEBUG=1 mess with RelWithDebInfo?
             set(CMAKE_CXX_FLAGS_MINSIZEREL "${CMAKE_CXX_FLAGS} -DNDEBUG=1 -D_NDEBUG=1 -Os -fno-delete-null-pointer-checks -fno-unsafe-math-optimizations")
         endif()
 
@@ -333,7 +447,7 @@ if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_C_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_
     		add_definitions(-DPLATFORM_MACOSX=1)
     		add_definitions(-DPRAGMA_ONCE=1)
     		include_directories("/usr/local/include")
-    		include_directories("/usr/X11/include/")
+		include_directories("/usr/X11/include/")
 	elseif(WINDOWS)
 		add_definitions(-DPLATFORM_WIN32=1)
     		add_definitions(-DPRAGMA_ONCE=1)
@@ -375,7 +489,7 @@ elseif(MSVC) # RAKE! I don't know if this will build with MSVC
 	add_compile_options(/wd4714) # 'function' marked as __forceinline not inlined
 	add_compile_options(/wd4996) # 'function': was declared deprecated
 	add_compile_options(/wd4068) # unknown pragma
-        set(CMAKE_C_FLAGS_DEBUG "-D_DEBUG /Od /Zi /MDd")
+	set(CMAKE_C_FLAGS_DEBUG "-D_DEBUG /Od /Zi /MDd")
 	set(CMAKE_C_FLAGS_RELEASE "/Ox /Oy /MD")
 	set(CMAKE_C_FLAGS_RELWITHDEBINFO "/Ox /Oy /Zi /MD")
 	set(CMAKE_C_FLAGS_MINSIZEREL "/Ox /Oy /Os /MD")
@@ -390,33 +504,8 @@ if(DEBUG)
 else()
     set(DEBUGSUFFIX "")
 endif()
-
-option(USE_ASM "Use ASM code" TRUE)
-if (USE_ASM)
-    MESSAGE(STATUS "Using assembler code (when available)")
-else()
-    add_definitions(-DUSE_PORTABLE_C=1)
-    MESSAGE(STATUS "Using portable C instead of all ASM")
-endif()
-
+add_definitions(-DUSE_PORTABLE_C=1)
 option(USE_I386_NASM_ASM "Use i386 nasm ASM code" FALSE)
-
-if (USE_ASM AND USE_I386_NASM_ASM)
-    # You need the Netwide Assembler (NASM) to build this on Intel systems.
-    #   http://nasm.sf.net/
-    add_definitions(-DUSE_I386_NASM_ASM=1)
-    if (MACOSX)
-        set(ASMOBJFMT "macho")
-        list(APPEND ASMFLAGS --prefix _)
-    elseif(WINDOWS)
-        set(ASMOBJFMT "win32")
-    else()
-        set(ASMOBJFMT "elf")
-    endif()
-    MESSAGE(STATUS "Using i386 nasm ASM")
-else()
-    MESSAGE(STATUS "Not using i386 nasm ASM")
-endif()
 
 option(PANDORA "Compile for Pandora" FALSE)
 if (PANDORA)
@@ -437,15 +526,6 @@ option(USE_TREMOR "Use Tremor instead of Vorbis" FALSE)
 if (USE_TREMOR)
     add_definitions(-DUSE_TREMOR=1)
 endif()
-
-option(TFE "Compile a The First Encounter version" TRUE)
-if (TFE)
- add_definitions(-DFIRST_ENCOUNTER=1)
- set(MP "")
-else()
- set(MP "MP")
-endif()
-
 
 # !!! FIXME: I currently force this, but you shouldn't _have_ to.
 option(USE_SINGLE_THREAD "Use Single Threaded version" FALSE)
