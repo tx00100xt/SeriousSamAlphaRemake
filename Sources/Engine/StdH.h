@@ -20,6 +20,12 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #define __STDC_LIMIT_MACROS 1
 
 #ifdef _MSC_VER
+#define __extern extern
+#else
+#define __extern
+#endif
+
+#ifdef _MSC_VER
 #ifndef INDEX_T
 #define INDEX_T INDEX
 #endif
@@ -36,7 +42,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <search.h>   // for qsort
 #include <float.h>    // for FPU control
 
-#ifdef PLATFORM_WIN32
+#ifdef _MSC_VER
 #include <io.h>
 #include <malloc.h>
 #include <conio.h>

@@ -18,7 +18,7 @@ CEntityComponent CMovableBrushEntity_components[] = {
 
 CEventHandlerEntry CMovableBrushEntity_handlers[] = {
  {0x00030000, -1, CEntity::pEventHandler(&CMovableBrushEntity::
-#line 61 "E:/VisualStudio/TEST/SeriousSamClassic-VK/SamTFE/Sources/Engine/Classes/MovableBrushEntity.es"
+#line 61 "/home/terminator/VBoxShare/TEMP/SeriousSamAlphaRemake/Sources/Engine/Classes/MovableBrushEntity.es"
 Dummy),DEBUGSTRING("CMovableBrushEntity::Dummy")},
 };
 #define CMovableBrushEntity_handlersct ARRAYCOUNT(CMovableBrushEntity_handlers)

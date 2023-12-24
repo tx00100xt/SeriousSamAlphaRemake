@@ -17,7 +17,7 @@ CEntityComponent CPlayerEntity_components[] = {
 
 CEventHandlerEntry CPlayerEntity_handlers[] = {
  {0x00040000, -1, CEntity::pEventHandler(&CPlayerEntity::
-#line 145 "E:/VisualStudio/TEST/SeriousSamClassic-VK/SamTFE/Sources/Engine/Classes/PlayerEntity.es"
+#line 145 "/home/terminator/VBoxShare/TEMP/SeriousSamAlphaRemake/Sources/Engine/Classes/PlayerEntity.es"
 Dummy),DEBUGSTRING("CPlayerEntity::Dummy")},
 };
 #define CPlayerEntity_handlersct ARRAYCOUNT(CPlayerEntity_handlers)

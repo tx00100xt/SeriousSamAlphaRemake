@@ -18,10 +18,10 @@ CEntityComponent CMovableModelEntity_components[] = {
 
 CEventHandlerEntry CMovableModelEntity_handlers[] = {
  {0x00020000, -1, CEntity::pEventHandler(&CMovableModelEntity::
-#line 189 "E:/VisualStudio/TEST/SeriousSamClassic-VK/SamTFE/Sources/Engine/Classes/MovableModelEntity.es"
+#line 189 "/home/terminator/VBoxShare/TEMP/SeriousSamAlphaRemake/Sources/Engine/Classes/MovableModelEntity.es"
 Dummy),DEBUGSTRING("CMovableModelEntity::Dummy")},
  {0x00020001, -1, CEntity::pEventHandler(&CMovableModelEntity::
-#line 192 "E:/VisualStudio/TEST/SeriousSamClassic-VK/SamTFE/Sources/Engine/Classes/MovableModelEntity.es"
+#line 192 "/home/terminator/VBoxShare/TEMP/SeriousSamAlphaRemake/Sources/Engine/Classes/MovableModelEntity.es"
 WaitUntilScheduledAnimStarts),DEBUGSTRING("CMovableModelEntity::WaitUntilScheduledAnimStarts")},
  {0x00020002, -1, CEntity::pEventHandler(&CMovableModelEntity::H0x00020002_WaitUntilScheduledAnimStarts_01), DEBUGSTRING("CMovableModelEntity::H0x00020002_WaitUntilScheduledAnimStarts_01")},
  {0x00020003, -1, CEntity::pEventHandler(&CMovableModelEntity::H0x00020003_WaitUntilScheduledAnimStarts_02), DEBUGSTRING("CMovableModelEntity::H0x00020003_WaitUntilScheduledAnimStarts_02")},

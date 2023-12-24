@@ -28,7 +28,7 @@ CPlacement3D en_plLastViewpoint;
    void DumpSync_t(CTStream & strm,INDEX iExtensiveSyncCheck);
 #define  STATE_CPlayerEntity_Dummy 0x00040000
   BOOL 
-#line 145 "E:/VisualStudio/TEST/SeriousSamClassic-VK/SamTFE/Sources/Engine/Classes/PlayerEntity.es"
+#line 145 "/home/terminator/VBoxShare/TEMP/SeriousSamAlphaRemake/Sources/Engine/Classes/PlayerEntity.es"
 Dummy(const CEntityEvent &__eeInput);
 };
 #endif // _Engine_Classes_PlayerEntity_INCLUDED

@@ -165,6 +165,9 @@ MY_STATIC_ASSERT(size_tSize, sizeof(size_t) == sizeof(void*));
     #define FPU_REGS "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)"
     #define MMX_REGS "mm0", "mm1", "mm2", "mm3", "mm4", "mm5", "mm6", "mm7"
   #endif
+#define NOT_USE_ASM 0
+#else
+#define NOT_USE_ASM 1
 #endif
 
 #ifdef PLATFORM_UNIX  /* rcg10042001 */
@@ -376,6 +379,10 @@ typedef int32_t INDEX;     // for indexed values and quantities
 typedef int BOOL;		        // this is for TRUE/FALSE
 typedef long int RESULT;		// for error codes
 typedef long int INDEX;     // for indexed values and quantities
+#endif
+
+#if (defined __NetBSD__)
+typedef int64_t  __int64 ;
 #endif
 
 #define FALSE 0

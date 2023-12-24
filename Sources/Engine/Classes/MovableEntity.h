@@ -60,7 +60,7 @@ FLOATmatrix3D en_mMoveRotation;
 FLOAT3D en_vAppliedTranslation;
 FLOATmatrix3D en_mAppliedRotation;
    
-#line 332 "E:/VisualStudio/TEST/SeriousSamClassic-VK/SamTFE/Sources/Engine/Classes/MovableEntity.es"
+#line 332 "/home/terminator/VBoxShare/TEMP/SeriousSamAlphaRemake/Sources/Engine/Classes/MovableEntity.es"
 void ResetPredictionFilter(void);
     CMovableEntity(void);
      ~ CMovableEntity(void);
@@ -68,7 +68,7 @@ void ResetPredictionFilter(void);
    void OnEnd(void);
    void Copy(CEntity & enOther,ULONG ulFlags);
    
-#line 404 "E:/VisualStudio/TEST/SeriousSamClassic-VK/SamTFE/Sources/Engine/Classes/MovableEntity.es"
+#line 404 "/home/terminator/VBoxShare/TEMP/SeriousSamAlphaRemake/Sources/Engine/Classes/MovableEntity.es"
 void ClearTemporaryData(void);
    void ChecksumForSync(ULONG & ulCRC,INDEX iExtensiveSyncCheck);
    void DumpSync_t(CTStream & strm,INDEX iExtensiveSyncCheck);
@@ -84,16 +84,16 @@ void ClearTemporaryData(void);
    void GiveImpulseTranslationRelative(const FLOAT3D & vImpulseSpeedRelative);
    void GiveImpulseTranslationAbsolute(const FLOAT3D & vImpulseSpeed);
    void LaunchAsPropelledProjectile(const FLOAT3D & vImpulseSpeedRelative,
-#line 655 "E:/VisualStudio/TEST/SeriousSamClassic-VK/SamTFE/Sources/Engine/Classes/MovableEntity.es"
+#line 655 "/home/terminator/VBoxShare/TEMP/SeriousSamAlphaRemake/Sources/Engine/Classes/MovableEntity.es"
 CMovableEntity * penLauncher);
    void LaunchAsFreeProjectile(const FLOAT3D & vImpulseSpeedRelative,
-#line 663 "E:/VisualStudio/TEST/SeriousSamClassic-VK/SamTFE/Sources/Engine/Classes/MovableEntity.es"
+#line 663 "/home/terminator/VBoxShare/TEMP/SeriousSamAlphaRemake/Sources/Engine/Classes/MovableEntity.es"
 CMovableEntity * penLauncher);
    void ForceStopTranslation(void);
    void ForceStopRotation(void);
    void ForceFullStop(void);
    void FakeJump(const FLOAT3D & vOrgSpeed,const FLOAT3D & vDirection,FLOAT fStrength,
-#line 693 "E:/VisualStudio/TEST/SeriousSamClassic-VK/SamTFE/Sources/Engine/Classes/MovableEntity.es"
+#line 693 "/home/terminator/VBoxShare/TEMP/SeriousSamAlphaRemake/Sources/Engine/Classes/MovableEntity.es"
 FLOAT fParallelMultiplier,FLOAT fNormalMultiplier,FLOAT fMaxExitSpeed,TIME tmControl);
    ANGLE GetRelativeHeading(const FLOAT3D & vDirection);
    ANGLE GetRelativePitch(const FLOAT3D & vDirection);
@@ -101,76 +101,76 @@ FLOAT fParallelMultiplier,FLOAT fNormalMultiplier,FLOAT fMaxExitSpeed,TIME tmCon
    void GetHeadingDirection(ANGLE aH,FLOAT3D & vDirection);
    void GetPitchDirection(ANGLE aH,FLOAT3D & vDirection);
    
-#line 794 "E:/VisualStudio/TEST/SeriousSamClassic-VK/SamTFE/Sources/Engine/Classes/MovableEntity.es"
+#line 794 "/home/terminator/VBoxShare/TEMP/SeriousSamAlphaRemake/Sources/Engine/Classes/MovableEntity.es"
 CEntity * MiscDamageInflictor(void);
    
-#line 811 "E:/VisualStudio/TEST/SeriousSamClassic-VK/SamTFE/Sources/Engine/Classes/MovableEntity.es"
+#line 811 "/home/terminator/VBoxShare/TEMP/SeriousSamAlphaRemake/Sources/Engine/Classes/MovableEntity.es"
 void UpdateOneSectorForce(CBrushSector & bsc,FLOAT fRatio);
    
-#line 860 "E:/VisualStudio/TEST/SeriousSamClassic-VK/SamTFE/Sources/Engine/Classes/MovableEntity.es"
+#line 860 "/home/terminator/VBoxShare/TEMP/SeriousSamAlphaRemake/Sources/Engine/Classes/MovableEntity.es"
 void TestFields(INDEX & iUpContent,INDEX & iDnContent,FLOAT & fImmersionFactor);
    
-#line 1003 "E:/VisualStudio/TEST/SeriousSamClassic-VK/SamTFE/Sources/Engine/Classes/MovableEntity.es"
+#line 1003 "/home/terminator/VBoxShare/TEMP/SeriousSamAlphaRemake/Sources/Engine/Classes/MovableEntity.es"
 void TestBreathing(CContentType & ctUp);
    
-#line 1039 "E:/VisualStudio/TEST/SeriousSamClassic-VK/SamTFE/Sources/Engine/Classes/MovableEntity.es"
+#line 1039 "/home/terminator/VBoxShare/TEMP/SeriousSamAlphaRemake/Sources/Engine/Classes/MovableEntity.es"
 void TestContentDamage(CContentType & ctDn,FLOAT fImmersion);
    
-#line 1072 "E:/VisualStudio/TEST/SeriousSamClassic-VK/SamTFE/Sources/Engine/Classes/MovableEntity.es"
+#line 1072 "/home/terminator/VBoxShare/TEMP/SeriousSamAlphaRemake/Sources/Engine/Classes/MovableEntity.es"
 void TestSurfaceDamage(CSurfaceType & stDn);
    
-#line 1098 "E:/VisualStudio/TEST/SeriousSamClassic-VK/SamTFE/Sources/Engine/Classes/MovableEntity.es"
+#line 1098 "/home/terminator/VBoxShare/TEMP/SeriousSamAlphaRemake/Sources/Engine/Classes/MovableEntity.es"
 void SendTouchEvent(const CClipMove & cmMove);
    
-#line 1113 "E:/VisualStudio/TEST/SeriousSamClassic-VK/SamTFE/Sources/Engine/Classes/MovableEntity.es"
+#line 1113 "/home/terminator/VBoxShare/TEMP/SeriousSamAlphaRemake/Sources/Engine/Classes/MovableEntity.es"
 void SendBlockEvent(CClipMove & cmMove);
    
-#line 1121 "E:/VisualStudio/TEST/SeriousSamClassic-VK/SamTFE/Sources/Engine/Classes/MovableEntity.es"
+#line 1121 "/home/terminator/VBoxShare/TEMP/SeriousSamAlphaRemake/Sources/Engine/Classes/MovableEntity.es"
 BOOL IsStandingOnPolygon(CBrushPolygon * pbpo);
    
-#line 1184 "E:/VisualStudio/TEST/SeriousSamClassic-VK/SamTFE/Sources/Engine/Classes/MovableEntity.es"
+#line 1184 "/home/terminator/VBoxShare/TEMP/SeriousSamAlphaRemake/Sources/Engine/Classes/MovableEntity.es"
 BOOL IsPolygonBelowPoint(CBrushPolygon * pbpo,const FLOAT3D & vPoint,FLOAT fMaxDist);
   virtual BOOL AllowForGroundPolygon(CBrushPolygon * pbpo);
    
-#line 1274 "E:/VisualStudio/TEST/SeriousSamClassic-VK/SamTFE/Sources/Engine/Classes/MovableEntity.es"
+#line 1274 "/home/terminator/VBoxShare/TEMP/SeriousSamAlphaRemake/Sources/Engine/Classes/MovableEntity.es"
 BOOL IsSomeNearPolygonBelowPoint(const FLOAT3D & vPoint,FLOAT fMaxDist);
    
-#line 1281 "E:/VisualStudio/TEST/SeriousSamClassic-VK/SamTFE/Sources/Engine/Classes/MovableEntity.es"
+#line 1281 "/home/terminator/VBoxShare/TEMP/SeriousSamAlphaRemake/Sources/Engine/Classes/MovableEntity.es"
 BOOL IsSomeSectorPolygonBelowPoint(CBrushSector * pbsc,const FLOAT3D & vPoint,FLOAT fMaxDist);
    
-#line 1297 "E:/VisualStudio/TEST/SeriousSamClassic-VK/SamTFE/Sources/Engine/Classes/MovableEntity.es"
+#line 1297 "/home/terminator/VBoxShare/TEMP/SeriousSamAlphaRemake/Sources/Engine/Classes/MovableEntity.es"
 BOOL WouldFallInNextPosition(void);
    
-#line 1407 "E:/VisualStudio/TEST/SeriousSamClassic-VK/SamTFE/Sources/Engine/Classes/MovableEntity.es"
+#line 1407 "/home/terminator/VBoxShare/TEMP/SeriousSamAlphaRemake/Sources/Engine/Classes/MovableEntity.es"
 void ClearNextPosition(void);
    
-#line 1413 "E:/VisualStudio/TEST/SeriousSamClassic-VK/SamTFE/Sources/Engine/Classes/MovableEntity.es"
+#line 1413 "/home/terminator/VBoxShare/TEMP/SeriousSamAlphaRemake/Sources/Engine/Classes/MovableEntity.es"
 void SetPlacementFromNextPosition(void);
    
-#line 1440 "E:/VisualStudio/TEST/SeriousSamClassic-VK/SamTFE/Sources/Engine/Classes/MovableEntity.es"
+#line 1440 "/home/terminator/VBoxShare/TEMP/SeriousSamAlphaRemake/Sources/Engine/Classes/MovableEntity.es"
 BOOL TryToGoUpstairs(const FLOAT3D & vTranslationAbsolute,const CSurfaceType & stHit,
-#line 1441 "E:/VisualStudio/TEST/SeriousSamClassic-VK/SamTFE/Sources/Engine/Classes/MovableEntity.es"
+#line 1441 "/home/terminator/VBoxShare/TEMP/SeriousSamAlphaRemake/Sources/Engine/Classes/MovableEntity.es"
 BOOL bHitStairsOrg);
    
-#line 1594 "E:/VisualStudio/TEST/SeriousSamClassic-VK/SamTFE/Sources/Engine/Classes/MovableEntity.es"
+#line 1594 "/home/terminator/VBoxShare/TEMP/SeriousSamAlphaRemake/Sources/Engine/Classes/MovableEntity.es"
 BOOL TryToMove(CMovableEntity * penPusher,BOOL bTranslate,BOOL bRotate);
    void ClearMovingTemp(void);
    void PreMoving(void);
    
-#line 2025 "E:/VisualStudio/TEST/SeriousSamClassic-VK/SamTFE/Sources/Engine/Classes/MovableEntity.es"
+#line 2025 "/home/terminator/VBoxShare/TEMP/SeriousSamAlphaRemake/Sources/Engine/Classes/MovableEntity.es"
 void PreMovingNew(void);
    
-#line 2441 "E:/VisualStudio/TEST/SeriousSamClassic-VK/SamTFE/Sources/Engine/Classes/MovableEntity.es"
+#line 2441 "/home/terminator/VBoxShare/TEMP/SeriousSamAlphaRemake/Sources/Engine/Classes/MovableEntity.es"
 void PreMovingOld(void);
    void DoMoving(void);
    void PostMoving(void);
    void CacheNearPolygons(void);
    
-#line 3104 "E:/VisualStudio/TEST/SeriousSamClassic-VK/SamTFE/Sources/Engine/Classes/MovableEntity.es"
+#line 3104 "/home/terminator/VBoxShare/TEMP/SeriousSamAlphaRemake/Sources/Engine/Classes/MovableEntity.es"
 SLONG GetUsedMemory(void);
 #define  STATE_CMovableEntity_Dummy 0x00010000
   BOOL 
-#line 3118 "E:/VisualStudio/TEST/SeriousSamClassic-VK/SamTFE/Sources/Engine/Classes/MovableEntity.es"
+#line 3118 "/home/terminator/VBoxShare/TEMP/SeriousSamAlphaRemake/Sources/Engine/Classes/MovableEntity.es"
 Dummy(const CEntityEvent &__eeInput);
 };
 #endif // _Engine_Classes_MovableEntity_INCLUDED
