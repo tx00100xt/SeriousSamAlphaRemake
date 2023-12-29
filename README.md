@@ -78,17 +78,15 @@ The build for raspberry pi is similar to the build for Linux, you just need to a
 cd SeriousSamAlphaRemake/Sources
 ./build-linux64.sh -DRPI4=TRUE		# use build-linux32.sh for 32-bits
 ```
-### FreeBSD
+### FreeBSD OpenBSD NetBSD
 
-Install bash. 
-Type this in your terminal:
+To build a binary package for installation on the system use the template:  
+https://github.com/tx00100xt/SeriousSamAlphaRemake/tree/main/templates  
 
+After installation unpack the add-on archive into the directory:  
 ```
-git clone https://github.com/tx00100xt/SeriousSamAlphaRemake.git
-cd SeriousSamAlphaRemake/Sources
-bash build-linux64.sh 				# use build-linux32.sh for 32-bits
+~/.local/share/Serious-Engine/serioussam/
 ```
-After that , libraries will be collected in the Mods directory . Copy them to SeriousSamClassic/SamTFE/Mods/SSA/Bin folder.
 
 ### macOS
 
@@ -127,6 +125,8 @@ Supported OS
 -----------
 * `Linux`
 * `FreeBSD`
+* `OpenBSD`
+* `NetBSD`
 * `Windows`
 * `Raspberry PI OS`
 * `macOS`
