@@ -3,3 +3,4 @@ $NetBSD: distinfo,v 1.6 2023/11/25 10:43:53 nia Exp $
 BLAKE2s (SeriousSamAlphaRemake-1.5.3c.tar.gz) = c57e07a9be5b198d6eafeb369ae473c94000c5a1ff3e80ae5351bb42f7e230c6
 SHA512 (SeriousSamAlphaRemake-1.5.3c.tar.gz) = 4d273bd487619a75f468ddde30fbf632683467408b2d8ac6b8684cf6836467dc1491126a3484a5e46c12349503b36ab54c66f8aff94db48c7f34304ac37a80b2
 Size (SeriousSamAlphaRemake-1.5.3c.tar.gz) = 9432500 bytes
+SHA1 (patch-CMakeLists.txt) = 924200b23769996ace72094b36cefbde3fc4c356
