@@ -1,0 +1,4 @@
+@comment $NetBSD: PLIST,v 1.1 2023/12/27 19:16:39 nia Exp $
+lib/serioussam/Mods/SSA/libGame.so
+lib/serioussam/Mods/SSA/libEntities.so
+man/man1/serioussam-alpha.1.gz
