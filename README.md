@@ -24,7 +24,7 @@ Zdzichu is author this mod for windows.
 Download [SeriousSamAlphaRemake_v1.5.7z] archive and unpack to  SeriousSamClassic/SamTFE/ directory.
 You can also download the archive using curl or wget:
 ```
-wget https://archive.org/download/serioussam-alpharemake-mod-data/SeriousSamAlphaRemake_v1.5.7z
+wget https://archive.org/download/serious-sam-alpha-remake-data/SeriousSamAlphaRemake_v1.5.tar.xz
 ```
 To start the modification, use the game menu - item Modification.
 
@@ -149,7 +149,7 @@ Some of the code included with the engine sources is not licensed under the GNU 
 * zlib (located in `Sources/Engine/zlib`) by Jean-loup Gailly and Mark Adler
 
 
-[SeriousSamAlphaRemake_v1.5.7z]: https://drive.google.com/file/d/1JZouza6PCpqGbucFYLaMh1oDXmGbb7_6/view?usp=share_link "Serious Sam Classic SSA Mod"
+[SeriousSamAlphaRemake_v1.5.7z]: https://drive.google.com/file/d/1XQmf37YWmlZeB1L2GhWwsVCWtQOVKqtY/view?usp=sharing "Serious Sam Classic SSA Mod"
 [Visual Studio 2015 Community Edition]: https://go.microsoft.com/fwlink/?LinkId=615448&clcid=0x409 "Visual Studio 2015 Community Edition"
 [Windows 10 SDK 10.0.14393.795]: https://go.microsoft.com/fwlink/p/?LinkId=838916 "Windows 10 SDK 10.0.14393.795"
 [Actions tab]: https://github.com/tx00100xt//SeriousSamAlphaRemake/actions "Download Artifacts"

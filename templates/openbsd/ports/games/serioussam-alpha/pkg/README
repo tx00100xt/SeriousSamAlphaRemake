@@ -7,7 +7,7 @@ installed and a copy of the game on Steam, GOG or on CD. For details about
 the "serioussam" port, enter the command: man serioussam
 
 Download the mod content using the command: wget
-https://archive.org/download/serioussam-alpharemake-mod-data/SeriousSamAlphaRemake_v1.5.7z
+https://archive.org/download/serious-sam-alpha-remake-data/SeriousSamAlphaRemake_v1.5.tar.xz
 
 Unpack the add-on archive into the directory:
 
