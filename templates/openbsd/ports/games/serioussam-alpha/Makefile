@@ -33,7 +33,7 @@ NO_TEST =	Yes
 WRKSRC =	${WRKDIST}/Sources
 
 post-install:
-	${INSTALL_MAN} ${WRKDIST}}/man/serioussam-alpha.1 \
-		${PREFIX}/man/serioussam-alpha.1
+	${INSTALL_MAN} ${WRKDIST}/man/serioussam-alpha.1 \
+		${PREFIX}/man/man1/serioussam-alpha.1
 
 .include <bsd.port.mk>
