@@ -13,7 +13,7 @@ Description: (From the author of mod)
 This is remake based on all code leftovers and original assets from alpha build. They are fixed and ported to game.    
 
 Author:  
-Zdzichu is author this mod for windows.
+Zdzichu is author this mod for Windows, which is available [here.](https://github.com/GrlPwr-Zdzichu/SeriousSamAlphaRemake-Legacy)
 
 ![Lava Planet](https://raw.githubusercontent.com/tx00100xt/SeriousSamAlphaRemake/main/Images/alpharemake_1.png)
 
