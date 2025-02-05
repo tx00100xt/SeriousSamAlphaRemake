@@ -10,7 +10,7 @@ jobs:
 
   build-alpine-x86:
     name: Alpine ${{ matrix.Configuration }} ${{ matrix.Platform }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
@@ -18,7 +18,7 @@ jobs:
         Platform: [x86]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install latest stable Alpine Linux
       uses: jirutka/setup-alpine@master
@@ -56,14 +56,14 @@ jobs:
           tar -cJpvf SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-alpine-x86-bin.tar.xz x32
           
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-alpine-x86-bin.tar.xz
         path: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-alpine-x86-bin.tar.xz          
 
   build-alpine-x64:
     name: Alpine ${{ matrix.Configuration }} ${{ matrix.Platform }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
@@ -71,7 +71,7 @@ jobs:
         Platform: [x86_64]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install latest stable Alpine Linux
       uses: jirutka/setup-alpine@master
@@ -109,14 +109,14 @@ jobs:
           tar -cJpvf SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-alpne-x86_64-bin.tar.xz x64
           
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-alpne-x86_64-bin.tar.xz
         path: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-alpne-x86_64-bin.tar.xz
               
   bild-ubuntu-x64:
     name: Ubuntu ${{ matrix.Configuration }} ${{ matrix.Platform }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
@@ -124,7 +124,7 @@ jobs:
         Platform: [x64]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install packages
       run: |
@@ -159,7 +159,7 @@ jobs:
           XZ_DEFAULTS="-T 10" tar --use-compress-program=xz -cpvf SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-lnx-amd64-bin.tar.xz x64
           
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-lnx-amd64-bin.tar.xz
         path: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-lnx-amd64-bin.tar.xz 
@@ -173,7 +173,7 @@ jobs:
         Configuration: [Release]
         Platform: [Win32]
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: microsoft/setup-msbuild@v1.3.1
       with:
         vs-version: '14.0'
@@ -196,7 +196,7 @@ jobs:
          7z a -mx=9 SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-win32-bin.7z x32
       
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-win32-bin.7z
         path: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-win32-bin.7z 
@@ -210,7 +210,7 @@ jobs:
         Configuration: [Release]
         Platform: [x64]
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - uses: microsoft/setup-msbuild@v1.3.1
       with:
@@ -235,7 +235,7 @@ jobs:
       
         
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-win64-bin.7z
         path: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-win64-bin.7z        
@@ -249,7 +249,7 @@ jobs:
         Configuration: [Release]
         Platform: [x64]    
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Get current date
         id: date
@@ -283,7 +283,7 @@ jobs:
             XZ_DEFAULTS="-T 10" tar --use-compress-program=xz -cpvf SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-bsd-amd64-bin.tar.xz x64
                       
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-bsd-amd64-bin.tar.xz
           path: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-bsd-amd64-bin.tar.xz      
@@ -297,7 +297,7 @@ jobs:
         Configuration: [Release]
         Platform: [x64]    
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Get current date
         id: date
@@ -325,14 +325,14 @@ jobs:
             XZ_DEFAULTS="-T 10" tar --use-compress-program=xz -cpvf SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-macos-amd64-bin.tar.xz x64
                       
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-macos-amd64-bin.tar.xz
           path: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-macos-amd64-bin.tar.xz     
    
   build-raspios-armv7l:
     name: RPi OS Lite ${{ matrix.Configuration }} ${{ matrix.arch }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         arch: [armv7l]
@@ -385,14 +385,14 @@ jobs:
          sudo mv ${{github.workspace}}/Release/SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-rpios-armv7l-bin.tar.xz ${{github.workspace}}/
                         
     - name: Upload Release
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-rpios-armv7l-bin.tar.xz
         path: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-rpios-armv7l-bin.tar.xz
         
   build-raspios-aarch64:
     name: RPi OS Lite ${{ matrix.Configuration }} ${{ matrix.arch }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         arch: [aarch64]
@@ -445,7 +445,7 @@ jobs:
          sudo mv ${{github.workspace}}/Release/SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-rpios-aarch64-bin.tar.xz ${{github.workspace}}/
                         
     - name: Upload Release
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-rpios-aarch64-bin.tar.xz
         path: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-rpios-aarch64-bin.tar.xz
@@ -462,7 +462,7 @@ jobs:
           - arch: riscv64
             distro: ubuntu22.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: uraimo/run-on-arch-action@v2
         name: Build artifact
         id: build
@@ -548,7 +548,7 @@ jobs:
             tar -cJpvf SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-lnx-riscv64-bin.tar.xz riscv64          
             
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-lnx-riscv64-bin.tar.xz
           path: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-lnx-riscv64-bin.tar.xz         
@@ -565,7 +565,7 @@ jobs:
           - arch: ppc64le
             distro: ubuntu22.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: uraimo/run-on-arch-action@v2
         name: Build artifact
         id: build
@@ -651,7 +651,7 @@ jobs:
             tar -cJpvf SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-lnx-ppc64le-bin.tar.xz ppc64le         
             
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-lnx-ppc64le-bin.tar.xz
           path: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-lnx-ppc64le-bin.tar.xz         
@@ -668,7 +668,7 @@ jobs:
           - arch: s390x
             distro: ubuntu22.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: uraimo/run-on-arch-action@v2
         name: Build artifact
         id: build
@@ -754,7 +754,7 @@ jobs:
             tar -cJpvf SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-lnx-s390x-bin.tar.xz s390x          
             
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-lnx-s390x-bin.tar.xz
           path: SeriousSamAlphaRemake-${{ steps.date.outputs.time }}-lnx-s390x-bin.tar.xz         
